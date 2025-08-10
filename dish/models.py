@@ -1,3 +1,26 @@
 from django.db import models
 
-# Create your models here.
+class Dish(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    image = models.ImageField(null=True, blank=True)
+    original_recipe = models.TextField()
+    alt_recipe = models.TextField()
+    
+    def __str__(self):
+        return self.name
+
+class Ingredient(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    quantity = models.IntegerField(default=0, null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    def __str__(self):
+        return self.name
+    
+class DishIngredient(models.Model):
+    id = models.AutoField(primary_key=True)
+    dish = models.ForeignKey(Dish, related_name='dish_ingredients', on_delete=models.CASCADE)
+    ingredient = models.ForeignKey(Ingredient, related_name='dish_ingredients', on_delete=models.CASCADE)
+

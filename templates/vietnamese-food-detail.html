@@ -1,0 +1,1464 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>Vietnamese Food Detail</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="" name="keywords">
+        <meta content="" name="description">
+
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+
+        <!-- Icon Font Stylesheet -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+        <!-- Libraries Stylesheet -->
+        <link href="{% static 'lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
+        <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+        <!-- Template Stylesheet -->
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <!-- Spinner Start -->
+        <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
+            <div class="spinner-grow text-primary" role="status"></div>
+        </div>
+        <!-- Spinner End -->
+
+        <!-- Navbar start -->
+        <div class="container-fluid fixed-top">
+            <div class="container topbar bg-primary d-none d-lg-block">
+                <div class="d-flex justify-content-between">
+                    <div class="top-info ps-2">
+                        <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">1-1 Chiyoda, Chiyoda City, Tokyo, Japan</a></small>
+                        <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="mailto:info@example.co.jp" class="text-white">info@example.co.jp</a></small>
+                    </div>
+                    <div class="top-link pe-2">
+                        <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
+                        <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
+                        <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
+                    </div>
+                </div>
+            </div>
+            <div class="container px-0">
+                <nav class="navbar navbar-light bg-white navbar-expand-xl">
+                    <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">VietJap</h1></a>
+                    <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                        <span class="fa fa-bars text-primary"></span>
+                    </button>
+                    <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+                        <div class="navbar-nav mx-auto">
+                            <a href="index.html" class="nav-item nav-link">Home</a>
+                            <a href="socialnetwork.html" class="nav-item nav-link">Social Network</a>
+                            <a href="about.html" class="nav-item nav-link">About</a>
+                            <a href="shop.html" class="nav-item nav-link">Shop</a>
+                            <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a>
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                                <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                    <a href="cart.html" class="dropdown-item">Cart</a>
+                                    <a href="checkout.html" class="dropdown-item">Checkout</a>
+                                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                    <a href="404.html" class="dropdown-item">404 Page</a>
+                                </div>
+                            </div>
+                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        </div>
+                        <div class="d-flex m-3 me-0">
+                            <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal">
+                                <i class="fas fa-search text-primary"></i>
+                            </button>
+                            <div class="dropdown">
+                                <a href="#" class="position-relative me-4 my-auto dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user fa-2x"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item" href="login.html"><i class="fas fa-sign-in-alt me-2"></i>Login</a></li>
+                                    <li><a class="dropdown-item" href="register.html"><i class="fas fa-user-plus me-2"></i>Register</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- Navbar End -->
+
+        <!-- Modal Search Start -->
+        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content rounded-0">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Search Vietnamese recipes</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body d-flex align-items-center">
+                        <div class="input-group w-75 mx-auto d-flex">
+                            <input type="search" class="form-control p-3" placeholder="Enter dish name..." aria-describedby="search-icon-1">
+                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Search End -->
+
+        <!-- Single Page Header start -->
+        <div class="container-fluid page-header py-5">
+            <h1 class="text-center text-white display-6" id="dish-title">Vietnamese Food Recipe</h1>
+            <ol class="breadcrumb justify-content-center mb-0">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Vietnamese Food</a></li>
+                <li class="breadcrumb-item active text-white" id="dish-breadcrumb">Recipe Detail</li>
+            </ol>
+        </div>
+        <!-- Single Page Header End -->
+
+        <!-- Vietnamese Food Detail Start -->
+        <div class="container-fluid py-5 mt-5">
+            <div class="container py-5">
+                <div class="row g-4 mb-5">
+                    <div class="col-lg-8 col-xl-9">
+                        <div class="row g-4">
+                            <div class="col-lg-6">
+                                <div class="border rounded">
+                                    <a href="#" data-lightbox="dish-gallery">
+                                        <img id="main-image" src="https://cdn.asiastreetfood.com/uploads/Vietnam-Pho-Bo-Hanoi3-9277-2.jpg?strip=all&lossy=1&quality=80&ssl=1" class="img-fluid rounded" alt="Vietnamese Dish">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <h4 class="fw-bold mb-3" id="dish-name">Pho Bo (Beef Noodle Soup)</h4>
+                                <p class="mb-3" id="dish-category">Category: Vietnamese Noodles</p>
+                                <h5 class="fw-bold mb-3">Description:</h5>
+                                <p id="dish-description">Traditional Vietnamese beef noodle soup with aromatic broth, rice noodles, and fresh herbs. This iconic dish represents the heart of Vietnamese cuisine with its complex flavors and comforting warmth.</p>
+                                <div class="d-flex mb-4">
+                                    <i class="fa fa-star text-secondary"></i>
+                                    <i class="fa fa-star text-secondary"></i>
+                                    <i class="fa fa-star text-secondary"></i>
+                                    <i class="fa fa-star text-secondary"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <p class="text-dark fs-5 fw-bold mb-0">
+                                            <i class="fas fa-clock me-2"></i>Prep Time: <span id="prep-time">30 min</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="text-dark fs-5 fw-bold mb-0">
+                                            <i class="fas fa-fire me-2"></i>Cook Time: <span id="cook-time">2 hours</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <p class="text-dark fs-5 fw-bold mb-0">
+                                            <i class="fas fa-users me-2"></i>Serves: <span id="serves">4 people</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p class="text-dark fs-5 fw-bold mb-0">
+                                            <i class="fas fa-signal me-2"></i>Difficulty: <span id="difficulty">Medium</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <nav>
+                                    <div class="nav nav-tabs mb-3">
+                                        <button class="nav-link active border-white border-bottom-0" type="button" role="tab" id="nav-about-tab" data-bs-toggle="tab" data-bs-target="#nav-about" aria-controls="nav-about" aria-selected="true">Ingredients</button>
+                                        <button class="nav-link border-white border-bottom-0" type="button" role="tab" id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission" aria-controls="nav-mission" aria-selected="false">Instructions</button>
+                                        <button class="nav-link border-white border-bottom-0" type="button" role="tab" id="nav-vision-tab" data-bs-toggle="tab" data-bs-target="#nav-vision" aria-controls="nav-vision" aria-selected="false">Tips & Notes</button>
+                                        <button class="nav-link border-white border-bottom-0" type="button" role="tab" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" aria-controls="nav-contact" aria-selected="false">Reviews</button>
+                                    </div>
+                                </nav>
+                                <div class="tab-content mb-5">
+                                    <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h5>For the Broth:</h5>
+                                                <ul id="broth-ingredients">
+                                                    <li>2 lbs beef bones</li>
+                                                    <li>1 lb beef brisket</li>
+                                                    <li>1 onion, charred</li>
+                                                    <li>3-inch piece ginger, charred</li>
+                                                    <li>2 star anise</li>
+                                                    <li>1 cinnamon stick</li>
+                                                    <li>4 cloves</li>
+                                                    <li>1 tbsp coriander seeds</li>
+                                                    <li>Fish sauce to taste</li>
+                                                    <li>Salt to taste</li>
+                                                </ul>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5>For Serving:</h5>
+                                                <form id="serving-ingredients-form">
+                                                    <ul id="serving-ingredients" class="list-unstyled">
+                                                        <li>
+                                                            <input type="checkbox" id="ingredient1" name="ingredient" value="1 lb fresh rice noodles (pho noodles)">
+                                                            <label for="ingredient1">1 lb fresh rice noodles (pho noodles)</label>
+                                                        </li>
+                                                        <li>
+                                                            <input type="checkbox" id="ingredient2" name="ingredient" value="Thinly sliced raw beef">
+                                                            <label for="ingredient2">Thinly sliced raw beef</label>
+                                                        </li>
+                                                        <li>
+                                                            <input type="checkbox" id="ingredient3" name="ingredient" value="Bean sprouts">
+                                                            <label for="ingredient3">Bean sprouts</label>
+                                                        </li>
+                                                        <li>
+                                                            <input type="checkbox" id="ingredient4" name="ingredient" value="Thai basil leaves">
+                                                            <label for="ingredient4">Thai basil leaves</label>
+                                                        </li>
+                                                        <li>
+                                                            <input type="checkbox" id="ingredient5" name="ingredient" value="Cilantro">
+                                                            <label for="ingredient5">Cilantro</label>
+                                                        </li>
+                                                        <li>
+                                                            <input type="checkbox" id="ingredient6" name="ingredient" value="Mint leaves">
+                                                            <label for="ingredient6">Mint leaves</label>
+                                                        </li>
+                                                        <li>
+                                                            <input type="checkbox" id="ingredient7" name="ingredient" value="Lime wedges">
+                                                            <label for="ingredient7">Lime wedges</label>
+                                                        </li>
+                                                        <li>
+                                                            <input type="checkbox" id="ingredient8" name="ingredient" value="Sliced jalapeños">
+                                                            <label for="ingredient8">Sliced jalapeños</label>
+                                                        </li>
+                                                        <li>
+                                                            <input type="checkbox" id="ingredient9" name="ingredient" value="Hoisin sauce">
+                                                            <label for="ingredient9">Hoisin sauce</label>
+                                                        </li>
+                                                        <li>
+                                                            <input type="checkbox" id="ingredient10" name="ingredient" value="Sriracha sauce">
+                                                            <label for="ingredient10">Sriracha sauce</label>
+                                                        </li>
+                                                    </ul>
+                                                    <button type="button" class="btn btn-primary rounded-pill mt-3" id="add-to-cart-btn">
+                                                        <i class="fa fa-shopping-cart me-2"></i>Add Selected to Cart
+                                                    </button>
+                                                    <script>
+                                                        document.getElementById('add-to-cart-btn').addEventListener('click', function() {
+                                                            // Lấy các nguyên liệu đã chọn
+                                                            const checked = Array.from(document.querySelectorAll('#serving-ingredients input[type="checkbox"]:checked'))
+                                                                .map(cb => cb.nextElementSibling.textContent.trim());
+                                                            
+                                                            if (checked.length === 0) {
+                                                                alert('Please select at least one ingredient!');
+                                                                return;
+                                                            }
+                                                            
+                                                            // Lưu vào localStorage
+                                                            localStorage.setItem('selectedIngredients', JSON.stringify(checked));
+                                                            
+                                                            // Chuyển sang trang cart.html trước
+                                                            window.location.href = 'cart.html';
+                                                        });
+                                                    </script>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h5>Cooking Instructions:</h5>
+                                                <div id="instructions">
+                                                    <div class="mb-3">
+                                                        <strong>Step 1:</strong> Prepare the bones by parboiling them for 5 minutes, then rinse clean.
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <strong>Step 2:</strong> Char the onion and ginger over open flame until fragrant and slightly blackened.
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <strong>Step 3:</strong> Toast the spices (star anise, cinnamon, cloves, coriander) in a dry pan for 2-3 minutes.
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <strong>Step 4:</strong> In a large pot, add bones, brisket, charred onion and ginger, and toasted spices. Cover with water.
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <strong>Step 5:</strong> Bring to a boil, then reduce heat and simmer for 1.5-2 hours, skimming foam regularly.
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <strong>Step 6:</strong> Season the broth with fish sauce and salt to taste.
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <strong>Step 7:</strong> Cook rice noodles according to package instructions and divide among bowls.
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <strong>Step 8:</strong> Top noodles with sliced beef and ladle hot broth over.
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <strong>Step 9:</strong> Serve immediately with fresh herbs, bean sprouts, lime, and sauces on the side.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="nav-vision" role="tabpanel" aria-labelledby="nav-vision-tab">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h5>Chef's Tips & Notes:</h5>
+                                                <div id="tips">
+                                                    <p><strong>Quality Bones:</strong> Use a mix of marrow and knuckle bones for the richest broth.</p>
+                                                    <p><strong>Charring:</strong> Don't skip charring the onion and ginger - it adds essential smoky flavor.</p>
+                                                    <p><strong>Skimming:</strong> Regularly skim the foam during cooking for a clear broth.</p>
+                                                    <p><strong>Assembly:</strong> Have all garnishes ready before serving as pho is best eaten immediately while hot.</p>
+                                                    <p><strong>Noodles:</strong> Fresh rice noodles are preferred, but dried can be substituted.</p>
+                                                    <p><strong>Japanese Twist:</strong> Try adding a small piece of kombu seaweed to the broth for extra umami depth.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                                        <div class="d-flex">
+                                            <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+                                            <div class="">
+                                                <p class="mb-2" style="font-size: 14px;">April 12, 2024</p>
+                                                <div class="d-flex justify-content-between">
+                                                    <h5>Mai Nguyen</h5>
+                                                    <div class="d-flex mb-3">
+                                                        <i class="fa fa-star text-secondary"></i>
+                                                        <i class="fa fa-star text-secondary"></i>
+                                                        <i class="fa fa-star text-secondary"></i>
+                                                        <i class="fa fa-star text-secondary"></i>
+                                                        <i class="fa fa-star"></i>
+                                                    </div>
+                                                </div>
+                                                <p>Authentic and delicious! This recipe brought back memories of my grandmother's pho. The broth was rich and flavorful.</p>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex">
+                                            <img src="img/avatar.jpg" class="img-fluid rounded-circle p-3" style="width: 100px; height: 100px;" alt="">
+                                            <div class="">
+                                                <p class="mb-2" style="font-size: 14px;">March 20, 2024</p>
+                                                <div class="d-flex justify-content-between">
+                                                    <h5>Takeshi Yamamoto</h5>
+                                                    <div class="d-flex mb-3">
+                                                        <i class="fa fa-star text-secondary"></i>
+                                                        <i class="fa fa-star text-secondary"></i>
+                                                        <i class="fa fa-star text-secondary"></i>
+                                                        <i class="fa fa-star text-secondary"></i>
+                                                        <i class="fa fa-star text-secondary"></i>
+                                                    </div>
+                                                </div>
+                                                <p>Perfect fusion recipe! As a Japanese chef, I appreciate the tip about adding kombu. It really enhances the umami.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <form action="#" class="mb-5">
+                                <h4 class="mb-5 fw-bold">Leave a Review</h4>
+                                <div class="row g-4">
+                                    <div class="col-lg-6">
+                                        <div class="border-bottom rounded">
+                                            <input type="text" class="form-control border-0 me-4" placeholder="Your Name *">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="border-bottom rounded">
+                                            <input type="email" class="form-control border-0" placeholder="Your Email *">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="border-bottom rounded my-4">
+                                            <textarea name="" id="" placeholder="Your Review *" class="form-control border-0" cols="30" rows="8"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="d-flex justify-content-between py-3 mb-5">
+                                            <div class="d-flex align-items-center">
+                                                <p class="mb-0 me-3">Please rate:</p>
+                                                <div class="d-flex align-items-center" style="font-size: 12px;">
+                                                    <i class="fa fa-star text-muted"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                    <i class="fa fa-star"></i>
+                                                </div>
+                                            </div>
+                                            <a href="#" class="btn border border-secondary text-primary rounded-pill px-4 py-3">Post Review</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- Vietnamese Food Detail End -->
+
+        <!-- Footer Start -->
+        <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
+            <div class="container py-5">
+                <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(226, 175, 24, 0.5) ;">
+                    <div class="row g-4">
+                        <div class="col-lg-3">
+                            <a href="#">
+                                <h1 class="text-primary mb-0">Fresh Fruit</h1>
+                                <p class="text-secondary mb-0">Fresh Products</p>
+                            </a>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="position-relative mx-auto">
+                                <input class="form-control border-0 w-100 py-3 px-4 rounded-pill" type="number" placeholder="Your Email">
+                                <button type="submit" class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white" style="top: 0; right: 0;">Subscribe Now</button>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="d-flex justify-content-end pt-3">
+                                <a class="btn  btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-youtube"></i></a>
+                                <a class="btn btn-outline-secondary btn-md-square rounded-circle" href=""><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-5">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-item">
+                            <h4 class="text-light mb-3">Why People Choose Us!</h4>
+                            <p class="mb-4">Quality products, dedicated service, reasonable prices.</p>
+                            <a href="" class="btn border-secondary py-2 px-4 rounded-pill text-primary">Read More</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="d-flex flex-column text-start footer-item">
+                            <h4 class="text-light mb-3">Shop Info</h4>
+                            <a class="btn-link" href="">About Us</a>
+                            <a class="btn-link" href="">Contact Us</a>
+                            <a class="btn-link" href="">Privacy Policy</a>
+                            <a class="btn-link" href="">Terms & Condition</a>
+                            <a class="btn-link" href="">Return Policy</a>
+                            <a class="btn-link" href="">FAQs & Help</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="d-flex flex-column text-start footer-item">
+                            <h4 class="text-light mb-3">Account</h4>
+                            <a class="btn-link" href="">My Account</a>
+                            <a class="btn-link" href="">Shop Details</a>
+                            <a class="btn-link" href="">Shopping Cart</a>
+                            <a class="btn-link" href="">Wishlist</a>
+                            <a class="btn-link" href="">Order History</a>
+                            <a class="btn-link" href="">International Orders</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-item">
+                            <h4 class="text-light mb-3">Contact</h4>
+                            <p>Address: 1429 Netus Rd, NY 48247</p>
+                            <p>Email: Example@gmail.com</p>
+                            <p>Phone: +0123 4567 8910</p>
+                            <p>Payment Accepted</p>
+                            <img src="img/payment.png" class="img-fluid" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+        <!-- Copyright Start -->
+        <div class="container-fluid copyright bg-dark py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        <span class="text-light"><a href="#"><i class="fas fa-copyright text-light me-2"></i>Your Site Name</a>, All right reserved.</span>
+                    </div>
+                    <div class="col-md-6 my-auto text-center text-md-end text-white">
+                        Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Copyright End -->
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
+
+        <!-- JavaScript Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+        <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+        <script src="{% static 'lib/lightbox/js/lightbox.min.js' %}"></script>
+        <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+        <!-- Template Javascript -->
+        <script src="{% static 'js/main.js' %}"></script>
+
+        <!-- Custom Recipe Detail Script -->
+        <script>
+            // Recipe data for different dishes
+            const recipeData = {
+                'pho-bo': {
+                    title: 'Pho Bo (Beef Noodle Soup)',
+                    image: 'https://cdn.asiastreetfood.com/uploads/Vietnam-Pho-Bo-Hanoi3-9277-2.jpg?strip=all&lossy=1&quality=80&ssl=1',
+                    category: 'Vietnamese Noodles',
+                    description: 'Traditional Vietnamese beef noodle soup with aromatic broth, rice noodles, and fresh herbs. This iconic dish represents the heart of Vietnamese cuisine with its complex flavors and comforting warmth.',
+                    prepTime: '30 min',
+                    cookTime: '2 hours',
+                    serves: '4 people',
+                    difficulty: 'Medium',
+                    ingredients: {
+                        broth: [
+                            '2 lbs beef bones',
+                            '1 lb beef brisket',
+                            '1 onion, charred',
+                            '3-inch piece ginger, charred',
+                            '2 star anise',
+                            '1 cinnamon stick',
+                            '4 cloves',
+                            '1 tbsp coriander seeds',
+                            'Fish sauce to taste',
+                            'Salt to taste'
+                        ],
+                        serving: [
+                            '1 lb fresh rice noodles (pho noodles)',
+                            'Thinly sliced raw beef',
+                            'Bean sprouts',
+                            'Thai basil leaves',
+                            'Cilantro',
+                            'Mint leaves',
+                            'Lime wedges',
+                            'Sliced jalapeños',
+                            'Hoisin sauce',
+                            'Sriracha sauce'
+                        ]
+                    },
+                    instructions: [
+                        'Char onion and ginger over open flame until blackened, then wash off charred skin.',
+                        'Boil beef bones and brisket for 10 minutes, then drain and rinse.',
+                        'Place bones, brisket, charred onion and ginger in a large pot with water.',
+                        'Add spices (star anise, cinnamon, cloves, coriander) and simmer for 2 hours.',
+                        'Season broth with fish sauce and salt to taste.',
+                        'Cook rice noodles according to package directions.',
+                        'Slice beef thinly and arrange with noodles in bowls.',
+                        'Pour hot broth over noodles and beef.',
+                        'Serve with fresh herbs, bean sprouts, lime wedges, and sauces.'
+                    ],
+                    tips: [
+                        'The key is in the broth - simmer slowly for deep flavor',
+                        'Char the aromatics well for authentic taste',
+                        'Use very thin beef slices so they cook in the hot broth',
+                        'Keep herbs and vegetables fresh and cold for contrast'
+                    ]
+                },
+                'banh-mi': {
+                    title: 'Banh Mi (Vietnamese Sandwich)',
+                    image: 'https://cdn.antoursvietnam.com/wp-content/uploads/2024/04/Top-5-best-Banh-Mi-in-Saigon.jpg',
+                    category: 'Vietnamese Sandwich',
+                    description: 'Crispy baguette filled with Vietnamese cold cuts, pâté, vegetables, and fresh herbs. A perfect fusion of French colonial influence and Vietnamese flavors.',
+                    prepTime: '15 min',
+                    cookTime: '5 min',
+                    serves: '2 people',
+                    difficulty: 'Easy',
+                    ingredients: {
+                        broth: [
+                            '2 fresh baguettes',
+                            'Vietnamese pâté',
+                            'Vietnamese ham',
+                            'Vietnamese headcheese',
+                            'Pickled carrots and daikon',
+                            'Fresh cucumber slices',
+                            'Fresh cilantro',
+                            'Fresh jalapeños',
+                            'Maggi seasoning sauce',
+                            'Mayonnaise'
+                        ],
+                        serving: [
+                            'Extra cilantro',
+                            'Extra jalapeños',
+                            'Pickled vegetables',
+                            'Sriracha sauce',
+                            'Soy sauce'
+                        ]
+                    },
+                    instructions: [
+                        'Slice baguettes lengthwise, leaving one side attached.',
+                        'Spread mayonnaise on both sides of the bread.',
+                        'Apply a thin layer of pâté on one side.',
+                        'Layer Vietnamese ham and headcheese.',
+                        'Add pickled carrots and daikon, cucumber slices.',
+                        'Top with fresh cilantro and sliced jalapeños.',
+                        'Drizzle with Maggi seasoning sauce.',
+                        'Close sandwich and serve immediately.'
+                    ],
+                    tips: [
+                        'Use fresh, crusty Vietnamese baguettes for best results',
+                        'Balance is key - don\'t overfill the sandwich',
+                        'Make pickled vegetables a day ahead for better flavor',
+                        'Serve immediately to maintain bread crispiness'
+                    ]
+                },
+                'bun-cha': {
+                    title: 'Bun Cha (Grilled Pork with Noodles)',
+                    image: 'https://thumbs.dreamstime.com/z/bowl-bun-cha-grilled-pork-noodles-side-side-bowl-bun-cha-grilled-pork-noodles-side-side-created-304089139.jpg?w=992',
+                    category: 'Vietnamese Noodles',
+                    description: 'Hanoi specialty with grilled pork patties, rice vermicelli, and dipping sauce. A beloved dish that showcases the balance of sweet, sour, and savory flavors.',
+                    prepTime: '20 min',
+                    cookTime: '15 min',
+                    serves: '3 people',
+                    difficulty: 'Medium',
+                    ingredients: {
+                        broth: [
+                            '1 lb ground pork',
+                            '1/2 lb pork belly, sliced',
+                            '2 tbsp fish sauce',
+                            '2 tbsp sugar',
+                            '1 tbsp vegetable oil',
+                            '2 cloves garlic, minced',
+                            '1 shallot, minced',
+                            'Black pepper',
+                            'Lemongrass, minced',
+                            'Rice vermicelli noodles'
+                        ],
+                        serving: [
+                            'Fresh lettuce leaves',
+                            'Fresh herbs (mint, cilantro)',
+                            'Pickled vegetables',
+                            'Nuoc cham dipping sauce',
+                            'Crushed peanuts',
+                            'Fried shallots'
+                        ]
+                    },
+                    instructions: [
+                        'Form ground pork into small patties and marinate with seasonings.',
+                        'Slice pork belly and marinate with similar seasonings.',
+                        'Grill pork patties and belly slices over charcoal until caramelized.',
+                        'Cook rice vermicelli and rinse with cold water.',
+                        'Prepare dipping sauce with fish sauce, sugar, lime juice, and chilies.',
+                        'Arrange noodles in bowls with fresh herbs and pickled vegetables.',
+                        'Serve grilled pork alongside with dipping sauce.',
+                        'Let diners mix everything together before eating.'
+                    ],
+                    tips: [
+                        'Charcoal grilling gives the best smoky flavor',
+                        'Don\'t overcook the pork - keep it juicy',
+                        'Balance sweet, sour, salty in the dipping sauce',
+                        'Serve at room temperature for best taste'
+                    ]
+                },
+                'goi-cuon': {
+                    title: 'Goi Cuon (Fresh Spring Rolls)',
+                    image: 'https://www.vietnam-travelonline.com/wp-content/uploads/2023/11/50d669e4faa74612bbaed118690d6cd6-1-scaled.jpg',
+                    category: 'Vietnamese Appetizer',
+                    description: 'Fresh rice paper rolls filled with shrimp, herbs, and vegetables served with peanut sauce. Light, healthy, and refreshing summer dish.',
+                    prepTime: '25 min',
+                    cookTime: '10 min',
+                    serves: '4 people',
+                    difficulty: 'Easy',
+                    ingredients: {
+                        broth: [
+                            'Rice paper wrappers',
+                            'Cooked shrimp, peeled',
+                            'Rice vermicelli, cooked',
+                            'Fresh lettuce leaves',
+                            'Fresh mint leaves',
+                            'Fresh cilantro',
+                            'Fresh chives',
+                            'Cucumber, julienned',
+                            'Cooked pork (optional)',
+                            'Warm water for softening'
+                        ],
+                        serving: [
+                            'Peanut dipping sauce',
+                            'Crushed peanuts',
+                            'Hoisin sauce',
+                            'Fresh herbs for garnish',
+                            'Pickled vegetables'
+                        ]
+                    },
+                    instructions: [
+                        'Soften rice paper in warm water for 10-15 seconds.',
+                        'Place on flat surface and add lettuce leaf first.',
+                        'Add 2-3 shrimp, some noodles, and fresh herbs.',
+                        'Fold bottom edge up, fold in sides, then roll tightly.',
+                        'Keep rolls covered with damp towel to prevent drying.',
+                        'Prepare peanut sauce by mixing peanut butter, hoisin, and water.',
+                        'Cut rolls in half diagonally before serving.',
+                        'Serve immediately with peanut dipping sauce.'
+                    ],
+                    tips: [
+                        'Don\'t oversoak rice paper - it continues to soften',
+                        'Keep fillings neat and centered for easy rolling',
+                        'Wet hands slightly to prevent sticking',
+                        'Best served fresh within 2 hours of making'
+                    ]
+                },
+                'com-tam': {
+                    title: 'Com Tam (Broken Rice)',
+                    image: 'https://vietnamoriginal-travel.com/upload/images/com-tam-vietnamese-broken-rice.jpg',
+                    category: 'Vietnamese Rice',
+                    description: 'Southern Vietnamese dish with grilled pork chop, egg, and broken rice served with fish sauce. A hearty and satisfying meal.',
+                    prepTime: '15 min',
+                    cookTime: '20 min',
+                    serves: '2 people',
+                    difficulty: 'Medium',
+                    ingredients: {
+                        broth: [
+                            'Broken rice (com tam)',
+                            'Pork chops',
+                            'Eggs',
+                            'Vietnamese sausage',
+                            'Pork skin',
+                            'Fish sauce',
+                            'Sugar',
+                            'Garlic',
+                            'Lemongrass',
+                            'Vegetable oil'
+                        ],
+                        serving: [
+                            'Pickled vegetables',
+                            'Fresh cucumber',
+                            'Fresh tomatoes',
+                            'Nuoc mam cham sauce',
+                            'Fresh herbs',
+                            'Fried shallots'
+                        ]
+                    },
+                    instructions: [
+                        'Marinate pork chops with minced garlic, lemongrass, fish sauce, and sugar.',
+                        'Grill pork chops over medium heat until caramelized and cooked through.',
+                        'Cook broken rice until tender but still has some texture.',
+                        'Fry eggs sunny-side up or over easy.',
+                        'Prepare pickled vegetables with carrots, daikon, and vinegar.',
+                        'Make nuoc mam cham sauce with fish sauce, lime juice, sugar, and chilies.',
+                        'Serve rice with grilled pork, fried egg, and sausage on top.',
+                        'Accompany with pickled vegetables and dipping sauce.'
+                    ],
+                    tips: [
+                        'Broken rice has unique texture - don\'t substitute regular rice',
+                        'Marinate pork overnight for best flavor',
+                        'Grill over charcoal for authentic smoky taste',
+                        'Serve hot with cold pickled vegetables for contrast'
+                    ]
+                },
+                'cao-lau': {
+                    title: 'Cao Lau (Hoi An Noodles)',
+                    image: 'https://danangleisure.com/wp-content/uploads/2023/04/Cao-Lau-Da-Nang.jpg',
+                    category: 'Vietnamese Noodles',
+                    description: 'Hoi An specialty noodles with pork, herbs, and crispy rice crackers in savory broth. A unique dish that can only be authentically made in Hoi An.',
+                    prepTime: '30 min',
+                    cookTime: '45 min',
+                    serves: '3 people',
+                    difficulty: 'Hard',
+                    ingredients: {
+                        broth: [
+                            'Cao Lau noodles',
+                            'Pork shoulder',
+                            'Pork bones for broth',
+                            'Dried shrimp',
+                            'Star anise',
+                            'Cinnamon',
+                            'Fish sauce',
+                            'Rock sugar',
+                            'Fried pork rinds',
+                            'Rice crackers'
+                        ],
+                        serving: [
+                            'Fresh greens',
+                            'Bean sprouts',
+                            'Fresh herbs',
+                            'Lime wedges',
+                            'Chili sauce'
+                        ]
+                    },
+                    instructions: [
+                        'Simmer pork bones for 2 hours to make rich broth.',
+                        'Cook pork shoulder until tender, then slice.',
+                        'Prepare cao lau noodles according to package directions.',
+                        'Fry pork rinds until crispy and golden.',
+                        'Season broth with fish sauce and rock sugar.',
+                        'Arrange noodles in bowls with sliced pork.',
+                        'Ladle hot broth over noodles.',
+                        'Top with crispy pork rinds, rice crackers, and herbs.',
+                        'Serve with lime wedges and chili sauce.'
+                    ],
+                    tips: [
+                        'Authentic cao lau noodles are only made in Hoi An',
+                        'The secret is the local well water used for noodles',
+                        'Balance textures with soft noodles and crispy toppings',
+                        'Don\'t skip the rice crackers - they add essential crunch'
+                    ]
+                },
+                'che-ba-mau': {
+                    title: 'Che Ba Mau (Three Color Dessert)',
+                    image: 'https://www.simplyrecipes.com/thmb/hGF_Oyd0R22nOGcKYpwp3nS_Pcg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Simply-Recipes-Che-Ba-Mau-LEAD-2-c6162830ea634fa5ae0fab2d21276378.jpg',
+                    category: 'Vietnamese Dessert',
+                    description: 'Traditional Vietnamese dessert with layers of mung bean, red bean, and coconut milk. A colorful and refreshing sweet treat.',
+                    prepTime: '45 min',
+                    cookTime: '30 min',
+                    serves: '6 people',
+                    difficulty: 'Medium',
+                    ingredients: {
+                        broth: [
+                            'Mung beans, cooked',
+                            'Red beans, cooked',
+                            'Coconut milk',
+                            'Sugar',
+                            'Pandan extract',
+                            'Tapioca pearls',
+                            'Crushed ice',
+                            'Condensed milk',
+                            'Coconut strips',
+                            'Food coloring'
+                        ],
+                        serving: [
+                            'Extra coconut milk',
+                            'Extra crushed ice',
+                            'Toasted sesame seeds',
+                            'Extra condensed milk'
+                        ]
+                    },
+                    instructions: [
+                        'Cook mung beans and red beans separately until soft, then mash lightly.',
+                        'Prepare coconut milk by mixing with sugar and a pinch of salt.',
+                        'Cook tapioca pearls until translucent and chewy.',
+                        'Layer the beans in glasses: red beans at bottom, mung beans in middle.',
+                        'Top with coconut milk, tapioca pearls, and crushed ice.',
+                        'Serve immediately with condensed milk drizzled on top.'
+                    ],
+                    tips: [
+                        'Use coconut cream for richer flavor',
+                        'Add pandan extract for authentic green color',
+                        'Serve in clear glasses to show beautiful layers',
+                        'Can be made ahead and assembled when serving'
+                    ]
+                },
+                'banh-flan': {
+                    title: 'Banh Flan (Vietnamese Crème Caramel)',
+                    image: 'https://cdn.tgdd.vn/Files/2019/04/02/1155839/cach-lam-banh-flan-ngon-tuyet-voi-theo-cong-thuc-cua-ba-me-202201061635318262.jpg',
+                    category: 'Vietnamese Dessert',
+                    description: 'Silky smooth Vietnamese crème caramel with rich caramel sauce and creamy custard. A beloved dessert combining French technique with Vietnamese flavors.',
+                    prepTime: '20 min',
+                    cookTime: '45 min',
+                    serves: '6 people',
+                    difficulty: 'Medium',
+                    ingredients: {
+                        broth: [
+                            'Eggs',
+                            'Condensed milk',
+                            'Fresh milk',
+                            'Sugar for caramel',
+                            'Vanilla extract',
+                            'Water',
+                            'Salt (pinch)'
+                        ],
+                        serving: [
+                            'Extra caramel sauce',
+                            'Fresh berries',
+                            'Mint leaves',
+                            'Whipped cream'
+                        ]
+                    },
+                    instructions: [
+                        'Make caramel by heating sugar until golden, then add water carefully.',
+                        'Pour caramel into ramekins and let cool.',
+                        'Beat eggs gently without creating too much foam.',
+                        'Mix condensed milk, fresh milk, and vanilla extract.',
+                        'Combine egg mixture with milk mixture, strain through fine sieve.',
+                        'Pour custard mixture over caramel in ramekins.',
+                        'Steam for 25-30 minutes until set but still jiggly.',
+                        'Cool completely, then refrigerate for at least 4 hours.',
+                        'Run knife around edges and invert to serve.'
+                    ],
+                    tips: [
+                        'Don\'t overcook caramel - it should be golden, not dark',
+                        'Strain custard mixture to ensure smooth texture',
+                        'Steam gently - high heat will create bubbles',
+                        'Test doneness with toothpick - should come out clean'
+                    ]
+                },
+                'bun-bo-hue': {
+                    title: 'Bun Bo Hue (Spicy Beef Noodle)',
+                    image: 'https://cdn.tgdd.vn/2020/07/CookRecipe/Avatar/bun-bo-hue-thumbnail.jpg',
+                    category: 'Vietnamese Noodles',
+                    description: 'Central Vietnamese spicy beef noodle soup with lemongrass and chili oil. A complex and aromatic dish from the imperial city of Hue.',
+                    prepTime: '30 min',
+                    cookTime: '2 hours',
+                    serves: '4 people',
+                    difficulty: 'Hard',
+                    ingredients: {
+                        broth: [
+                            'Beef bones',
+                            'Pork bones',
+                            'Beef shank',
+                            'Pork hock',
+                            'Lemongrass',
+                            'Annatto oil',
+                            'Shrimp paste',
+                            'Fish sauce',
+                            'Rock sugar',
+                            'Chili oil'
+                        ],
+                        serving: [
+                            'Bun bo hue noodles',
+                            'Fresh herbs',
+                            'Bean sprouts',
+                            'Lime wedges',
+                            'Sliced banana flower',
+                            'Vietnamese ham'
+                        ]
+                    },
+                    instructions: [
+                        'Char lemongrass over open flame until fragrant.',
+                        'Simmer beef and pork bones with charred lemongrass for 2 hours.',
+                        'Make annatto oil by heating oil with annatto seeds.',
+                        'Add shrimp paste and annatto oil to broth for color and flavor.',
+                        'Cook bun bo hue noodles until tender.',
+                        'Slice cooked beef and pork, arrange in bowls with noodles.',
+                        'Season broth with fish sauce, sugar, and chili oil.',
+                        'Pour hot broth over noodles and meat.',
+                        'Serve with fresh herbs, bean sprouts, and lime wedges.'
+                    ],
+                    tips: [
+                        'Shrimp paste is essential for authentic flavor',
+                        'Make your own chili oil for best results',
+                        'Balance spicy, salty, and slightly sweet flavors',
+                        'Serve very hot with cold, fresh vegetables'
+                    ]
+                },
+                'com-chien-duong-chau': {
+                    title: 'Com Chien (Yangzhou Fried Rice)',
+                    image: 'https://cdn.tgdd.vn/2020/07/CookRecipe/Avatar/com-chien-duong-chau-thumbnail.jpg',
+                    category: 'Vietnamese Rice',
+                    description: 'Vietnamese-style fried rice with shrimp, Chinese sausage, eggs, and green peas. A hearty and flavorful one-dish meal.',
+                    prepTime: '15 min',
+                    cookTime: '20 min',
+                    serves: '3 people',
+                    difficulty: 'Easy',
+                    ingredients: {
+                        broth: [
+                            'Cooked jasmine rice',
+                            'Shrimp, peeled',
+                            'Chinese sausage',
+                            'Eggs',
+                            'Green peas',
+                            'Carrots, diced',
+                            'Scallions',
+                            'Garlic',
+                            'Soy sauce',
+                            'Vegetable oil'
+                        ],
+                        serving: [
+                            'Cucumber slices',
+                            'Tomato wedges',
+                            'Fish sauce',
+                            'Chili sauce',
+                            'Pickled vegetables'
+                        ]
+                    },
+                    instructions: [
+                        'Use day-old rice for best texture - fresh rice gets mushy.',
+                        'Heat wok or large pan over high heat with oil.',
+                        'Scramble eggs first, remove and set aside.',
+                        'Stir-fry Chinese sausage until fragrant.',
+                        'Add shrimp and cook until pink.',
+                        'Add rice, breaking up clumps with spatula.',
+                        'Add vegetables, soy sauce, and scrambled eggs.',
+                        'Stir-fry until everything is heated through and well mixed.',
+                        'Garnish with chopped scallions before serving.'
+                    ],
+                    tips: [
+                        'High heat is crucial for proper wok hei (breath of the wok)',
+                        'Don\'t overcrowd the pan - cook in batches if needed',
+                        'Season gradually and taste as you go',
+                        'Each grain of rice should be separate and coated'
+                    ]
+                },
+                'com-suon-nuong': {
+                    title: 'Com Suon Nuong (Grilled Pork Rice)',
+                    image: 'https://cdn.tgdd.vn/Files/2022/01/17/1409905/cach-lam-com-suon-nuong-thom-ngon-don-gian-tai-nha-202201171613439166.jpg',
+                    category: 'Vietnamese Rice',
+                    description: 'Fragrant jasmine rice served with marinated grilled pork ribs and pickled vegetables. A satisfying and well-balanced meal.',
+                    prepTime: '20 min',
+                    cookTime: '25 min',
+                    serves: '2 people',
+                    difficulty: 'Medium',
+                    ingredients: {
+                        broth: [
+                            'Pork ribs',
+                            'Jasmine rice',
+                            'Lemongrass',
+                            'Garlic',
+                            'Shallots',
+                            'Fish sauce',
+                            'Sugar',
+                            'Honey',
+                            'Vegetable oil',
+                            'Black pepper'
+                        ],
+                        serving: [
+                            'Pickled vegetables',
+                            'Fresh cucumber',
+                            'Tomato slices',
+                            'Nuoc mam cham',
+                            'Fresh herbs',
+                            'Fried shallots'
+                        ]
+                    },
+                    instructions: [
+                        'Marinate pork ribs with minced lemongrass, garlic, fish sauce, sugar.',
+                        'Let marinate for at least 2 hours or overnight.',
+                        'Grill ribs over medium heat, turning frequently.',
+                        'Brush with honey during last few minutes of cooking.',
+                        'Cook jasmine rice until fluffy and fragrant.',
+                        'Prepare pickled vegetables with carrot and daikon.',
+                        'Make nuoc mam cham dipping sauce.',
+                        'Serve grilled ribs over rice with vegetables and sauce.',
+                        'Garnish with fried shallots and fresh herbs.'
+                    ],
+                    tips: [
+                        'Score the ribs for better marinade penetration',
+                        'Don\'t rush the grilling - slow and steady wins',
+                        'Honey adds beautiful caramelization',
+                        'Rest meat for 5 minutes before serving'
+                    ]
+                },
+                'com-hen': {
+                    title: 'Com Hen (Baby Clam Rice)',
+                    image: 'https://bepgiadinh.com/wp-content/uploads/2018/07/cach-lam-com-hen-hue.jpg',
+                    category: 'Vietnamese Rice',
+                    description: 'Hue specialty rice dish with baby clams, herbs, pork cracklings, and chili sauce. A unique and flavorful regional delicacy.',
+                    prepTime: '25 min',
+                    cookTime: '30 min',
+                    serves: '3 people',
+                    difficulty: 'Hard',
+                    ingredients: {
+                        broth: [
+                            'Baby clams',
+                            'Rice',
+                            'Pork belly',
+                            'Dried shrimp',
+                            'Shallots',
+                            'Garlic',
+                            'Turmeric',
+                            'Fish sauce',
+                            'Chili sauce',
+                            'Tamarind'
+                        ],
+                        serving: [
+                            'Fresh herbs',
+                            'Bean sprouts',
+                            'Banana flower',
+                            'Star fruit',
+                            'Pork cracklings',
+                            'Roasted peanuts'
+                        ]
+                    },
+                    instructions: [
+                        'Clean baby clams thoroughly and steam until they open.',
+                        'Reserve clam broth and remove meat from shells.',
+                        'Cook rice with turmeric until golden and fragrant.',
+                        'Fry pork belly until crispy, reserve fat.',
+                        'Sauté shallots and garlic in pork fat.',
+                        'Add clam meat, dried shrimp, and seasonings.',
+                        'Serve rice topped with clam mixture.',
+                        'Accompany with fresh herbs, banana flower, and peanuts.',
+                        'Drizzle with chili sauce and tamarind water.'
+                    ],
+                    tips: [
+                        'Fresh baby clams are essential - don\'t substitute',
+                        'Reserve clam liquid for extra umami flavor',
+                        'Balance is key - not too spicy, not too sour',
+                        'Serve at room temperature for best flavor'
+                    ]
+                },
+                'banh-chuoi-hap': {
+                    title: 'Banh Chuoi Hap (Steamed Banana Cake)',
+                    image: 'https://runawayrice.com/wp-content/uploads/2015/05/Steamed-Banana-Cake-Banh-Chuoi-Hap.jpg',
+                    category: 'Vietnamese Dessert',
+                    description: 'Traditional steamed banana cake with coconut milk, fragrant and naturally sweet. A comforting homestyle dessert.',
+                    prepTime: '20 min',
+                    cookTime: '30 min',
+                    serves: '8 people',
+                    difficulty: 'Easy',
+                    ingredients: {
+                        broth: [
+                            'Ripe bananas',
+                            'Tapioca flour',
+                            'Rice flour',
+                            'Coconut milk',
+                            'Sugar',
+                            'Salt',
+                            'Vanilla extract',
+                            'Banana leaves',
+                            'Water'
+                        ],
+                        serving: [
+                            'Extra coconut milk',
+                            'Toasted sesame seeds',
+                            'Shredded coconut',
+                            'Fresh banana slices'
+                        ]
+                    },
+                    instructions: [
+                        'Mash ripe bananas until smooth with some small chunks.',
+                        'Mix tapioca flour, rice flour, coconut milk, and sugar.',
+                        'Combine mashed bananas with flour mixture.',
+                        'Add vanilla extract and a pinch of salt.',
+                        'Line banana leaves in steamer basket.',
+                        'Pour batter into prepared banana leaves.',
+                        'Steam for 25-30 minutes until set and springs back.',
+                        'Cool slightly before removing from leaves.',
+                        'Serve warm or at room temperature.'
+                    ],
+                    tips: [
+                        'Use very ripe bananas for best sweetness',
+                        'Don\'t overmix - some banana chunks add texture',
+                        'Banana leaves impart subtle flavor',
+                        'Test doneness with toothpick in center'
+                    ]
+                },
+                'xoi-vo': {
+                    title: 'Xoi Vo (Purple Sticky Rice)',
+                    image: 'https://cdn.tgdd.vn/2021/06/CookRecipe/Avatar/xoi-vo-thumbnail.jpg',
+                    category: 'Vietnamese Dessert',
+                    description: 'Colorful purple sticky rice dessert with coconut milk and black sesame seeds. A traditional and visually stunning sweet treat.',
+                    prepTime: '4 hours',
+                    cookTime: '45 min',
+                    serves: '6 people',
+                    difficulty: 'Medium',
+                    ingredients: {
+                        broth: [
+                            'Purple sticky rice',
+                            'Coconut milk',
+                            'Sugar',
+                            'Salt',
+                            'Black sesame seeds',
+                            'Pandan leaves',
+                            'Water'
+                        ],
+                        serving: [
+                            'Extra coconut milk',
+                            'Toasted sesame seeds',
+                            'Shredded coconut',
+                            'Sliced bananas',
+                            'Crushed peanuts'
+                        ]
+                    },
+                    instructions: [
+                        'Soak purple sticky rice for at least 4 hours or overnight.',
+                        'Drain rice and rinse until water runs clear.',
+                        'Steam rice for 25-30 minutes until tender.',
+                        'Heat coconut milk with sugar and salt until dissolved.',
+                        'Mix half of coconut milk with cooked rice.',
+                        'Toast black sesame seeds until fragrant.',
+                        'Serve rice topped with remaining coconut milk.',
+                        'Sprinkle with toasted sesame seeds and toppings.',
+                        'Can be served warm or at room temperature.'
+                    ],
+                    tips: [
+                        'Soaking time is crucial for proper texture',
+                        'Don\'t skip the salt in coconut milk - it balances sweetness',
+                        'Steam in bamboo steamer for best results',
+                        'Purple rice gets deeper color as it cooks'
+                    ]
+                },
+                // Popular Vietnamese Dishes from index.html
+                'nom-bo-kho': {
+                    title: 'Nom Bo Kho (Dried Beef Salad)',
+                    image: 'https://www.vietnamparadisetravel.com/Media/travelnews/dried-beef-salad.jpg',
+                    category: 'Vietnamese Salad',
+                    description: 'Traditional Vietnamese beef jerky salad with herbs, peanuts, and tangy dressing. A refreshing and flavorful salad perfect for hot weather.',
+                    prepTime: '20 min',
+                    cookTime: '0 min',
+                    serves: '4 people',
+                    difficulty: 'Easy',
+                    ingredients: {
+                        broth: [
+                            'Dried beef (bo kho)',
+                            'Fresh herbs (cilantro, mint)',
+                            'Roasted peanuts',
+                            'Shredded green papaya',
+                            'Shredded carrots',
+                            'Bean sprouts',
+                            'Fried shallots',
+                            'Garlic, minced',
+                            'Lime juice',
+                            'Fish sauce'
+                        ],
+                        serving: [
+                            'Extra herbs',
+                            'Extra peanuts',
+                            'Chili flakes',
+                            'Lime wedges',
+                            'Prawn crackers'
+                        ]
+                    },
+                    instructions: [
+                        'Tear dried beef into bite-sized pieces.',
+                        'Shred green papaya and carrots into thin strips.',
+                        'Crush roasted peanuts coarsely.',
+                        'Pick herbs and wash thoroughly.',
+                        'Make dressing with lime juice, fish sauce, garlic, and chilies.',
+                        'Combine all ingredients in large bowl.',
+                        'Toss everything together with dressing.',
+                        'Let sit for 10 minutes for flavors to meld.',
+                        'Garnish with fried shallots and extra peanuts.'
+                    ],
+                    tips: [
+                        'Use good quality dried beef for best flavor',
+                        'Adjust dressing to balance sweet, sour, salty',
+                        'Serve immediately after mixing to keep vegetables crisp',
+                        'Add herbs just before serving to maintain freshness'
+                    ]
+                },
+                'canh-chua': {
+                    title: 'Canh Chua (Sour Soup)',
+                    image: 'https://runawayrice.com/wp-content/uploads/2014/09/Viet-Sour-Soup-Canh-Chua.jpg',
+                    category: 'Vietnamese Soup',
+                    description: 'Tangy Vietnamese soup with fish, tomatoes, pineapple, and tamarind broth. A perfect balance of sweet, sour, and savory flavors.',
+                    prepTime: '15 min',
+                    cookTime: '25 min',
+                    serves: '4 people',
+                    difficulty: 'Medium',
+                    ingredients: {
+                        broth: [
+                            'White fish fillets',
+                            'Tamarind paste',
+                            'Fresh pineapple chunks',
+                            'Tomatoes, wedged',
+                            'Bean sprouts',
+                            'Okra, sliced',
+                            'Taro stems',
+                            'Fish sauce',
+                            'Sugar',
+                            'Rice'
+                        ],
+                        serving: [
+                            'Fresh herbs',
+                            'Lime wedges',
+                            'Chili slices',
+                            'Extra bean sprouts'
+                        ]
+                    }
+                },
+                'banh-xeo': {
+                    title: 'Banh Xeo (Crispy Pancake)',
+                    image: 'https://img.taste.com.au/hegWu1Xh/taste/2016/11/banh-xeo-crispy-pancakes-77516-1.jpeg',
+                    category: 'Vietnamese Pancake',
+                    description: 'Crispy Vietnamese pancake filled with shrimp, pork, and bean sprouts. Golden, crispy exterior with savory filling inside.',
+                    prepTime: '30 min',
+                    cookTime: '20 min',
+                    serves: '4 people',
+                    difficulty: 'Medium',
+                    ingredients: {
+                        broth: [
+                            'Rice flour',
+                            'Coconut milk',
+                            'Turmeric powder',
+                            'Shrimp, peeled',
+                            'Pork belly, sliced',
+                            'Bean sprouts',
+                            'Green onions',
+                            'Vegetable oil',
+                            'Salt',
+                            'Water'
+                        ],
+                        serving: [
+                            'Lettuce leaves',
+                            'Fresh herbs',
+                            'Pickled vegetables',
+                            'Nuoc cham sauce'
+                        ]
+                    },
+                    instructions: [
+                        'Mix rice flour, coconut milk, turmeric, and water to make batter.',
+                        'Let batter rest for 30 minutes.',
+                        'Heat a non-stick pan over medium-high heat with oil.',
+                        'Pour batter to coat bottom of pan, swirl quickly.',
+                        'Add shrimp, pork, and bean sprouts to one half.',
+                        'Cover and cook until edges are crispy and golden.',
+                        'Fold pancake in half and slide onto plate.',
+                        'Wrap pieces in lettuce with herbs before eating.',
+                        'Dip in nuoc cham sauce for full flavor.'
+                    ],
+                    tips: [
+                        'Batter should be thin like crepe batter',
+                        'High heat creates the signature crispy texture',
+                        'Don\'t flip - just fold in half',
+                        'Serve immediately while still crispy'
+                    ]
+                },
+                'cha-gio': {
+                    title: 'Cha Gio (Fried Spring Rolls)',
+                    image: 'https://tse3.mm.bing.net/th/id/OIP.fFq4a_iPf7blUxto4Ce5WQHaHa?r=0&cb=thfvnext&rs=1&pid=ImgDetMain&o=7&rm=3',
+                    category: 'Vietnamese Rolls',
+                    description: 'Crispy fried spring rolls filled with pork, shrimp, and vegetables. Golden brown and crunchy exterior with flavorful filling.',
+                    prepTime: '40 min',
+                    cookTime: '15 min',
+                    serves: '6 people',
+                    difficulty: 'Medium',
+                    ingredients: {
+                        broth: [
+                            'Spring roll wrappers',
+                            'Ground pork',
+                            'Shrimp, minced',
+                            'Wood ear mushrooms',
+                            'Glass noodles',
+                            'Carrots, julienned',
+                            'Onions, minced',
+                            'Garlic, minced',
+                            'Fish sauce',
+                            'Oil for frying'
+                        ],
+                        serving: [
+                            'Fresh lettuce',
+                            'Fresh herbs',
+                            'Pickled vegetables',
+                            'Nuoc cham sauce'
+                        ]
+                    }
+                },
+                'banh-it': {
+                    title: 'Banh It (Steamed Dumplings)',
+                    image: 'https://th.bing.com/th/id/R.d6dc05d1d4d3678009f440c5c05cab78?rik=PoIOzI758ZjxXA&riu=http%3a%2f%2frunawayrice.com%2fwp-content%2fuploads%2f2017%2f08%2fSticky-Rice-Dumplings-with-Toppings-Banh-It-Tran.jpg&ehk=cASrdQVmJm%2bqWqJrdngzbN3v7YakKDrNhBYVMV%2bQeYo%3d&risl=&pid=ImgRaw&r=0',
+                    category: 'Vietnamese Snack',
+                    description: 'Delicate steamed dumplings with shrimp and pork filling wrapped in translucent dough. Soft, chewy texture with savory filling.',
+                    prepTime: '60 min',
+                    cookTime: '30 min',
+                    serves: '8 people',
+                    difficulty: 'Hard',
+                    ingredients: {
+                        broth: [
+                            'Tapioca starch',
+                            'Rice flour',
+                            'Shrimp, peeled',
+                            'Ground pork',
+                            'Wood ear mushrooms',
+                            'Scallions',
+                            'Fish sauce',
+                            'Sugar',
+                            'Black pepper',
+                            'Banana leaves'
+                        ],
+                        serving: [
+                            'Scallion oil',
+                            'Nuoc cham sauce',
+                            'Fried shallots',
+                            'Fresh herbs'
+                        ]
+                    },
+                    instructions: [
+                        'Mix tapioca starch and rice flour with hot water to form dough.',
+                        'Knead until smooth and elastic, cover and rest.',
+                        'Sauté shrimp, pork, and mushrooms with seasonings.',
+                        'Let filling cool completely before using.',
+                        'Roll dough into small portions, flatten into circles.',
+                        'Place filling in center, gather edges and seal.',
+                        'Wrap each dumpling in banana leaf.',
+                        'Steam for 20-25 minutes until translucent.',
+                        'Serve warm with scallion oil and dipping sauce.'
+                    ],
+                    tips: [
+                        'Dough should be smooth and pliable when ready',
+                        'Don\'t overfill or dumplings will burst',
+                        'Banana leaves add authentic aroma',
+                        'Steam gently to avoid breaking delicate wrapper'
+                    ]
+                }
+            };
+
+            // Get dish parameter from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const dishName = urlParams.get('dish');
+
+            // Load recipe data based on URL parameter
+            if (dishName && recipeData[dishName]) {
+                const recipe = recipeData[dishName];
+                document.getElementById('dish-title').textContent = recipe.title;
+                document.getElementById('dish-breadcrumb').textContent = recipe.title;
+                document.getElementById('main-image').src = recipe.image;
+                document.getElementById('dish-name').textContent = recipe.title;
+                document.getElementById('dish-category').textContent = 'Category: ' + recipe.category;
+                document.getElementById('dish-description').textContent = recipe.description;
+                document.getElementById('prep-time').textContent = recipe.prepTime;
+                document.getElementById('cook-time').textContent = recipe.cookTime;
+                document.getElementById('serves').textContent = recipe.serves;
+                document.getElementById('difficulty').textContent = recipe.difficulty;
+
+                // Update ingredients
+                if (recipe.ingredients) {
+                    // Update broth ingredients
+                    const brothList = document.getElementById('broth-ingredients');
+                    if (brothList && recipe.ingredients.broth) {
+                        brothList.innerHTML = recipe.ingredients.broth.map(ingredient => `<li>${ingredient}</li>`).join('');
+                    }
+
+                    // Update serving ingredients checkboxes
+                    const servingForm = document.getElementById('serving-ingredients-form');
+                    const servingList = document.getElementById('serving-ingredients');
+                    if (servingList && recipe.ingredients.serving) {
+                        servingList.innerHTML = recipe.ingredients.serving.map((ingredient, index) => `
+                            <li>
+                                <input type="checkbox" id="ingredient${index + 1}" name="ingredient" value="${ingredient}">
+                                <label for="ingredient${index + 1}">${ingredient}</label>
+                            </li>
+                        `).join('');
+                    }
+                }
+
+                // Update instructions
+                if (recipe.instructions) {
+                    const instructionsContainer = document.getElementById('instructions');
+                    if (instructionsContainer) {
+                        instructionsContainer.innerHTML = recipe.instructions.map((step, index) => `
+                            <div class="mb-3">
+                                <h6>Step ${index + 1}:</h6>
+                                <p>${step}</p>
+                            </div>
+                        `).join('');
+                    }
+                }
+
+                // Update tips
+                if (recipe.tips) {
+                    const tipsContainer = document.getElementById('tips');
+                    if (tipsContainer) {
+                        tipsContainer.innerHTML = recipe.tips.map(tip => `
+                            <div class="mb-2">
+                                <p><i class="fas fa-lightbulb text-warning me-2"></i>${tip}</p>
+                            </div>
+                        `).join('');
+                    }
+                }
+            }
+
+            // Quantity buttons
+            $('.btn-plus').click(function() {
+                var $input = $(this).parents('.quantity').find('input');
+                $input.val(parseInt($input.val()) + 1);
+            });
+
+            $('.btn-minus').click(function() {
+                var $input = $(this).parents('.quantity').find('input');
+                var val = parseInt($input.val());
+                if (val > 1) {
+                    $input.val(val - 1);
+                }
+            });
+        </script>
+    </body>
+
+</html>

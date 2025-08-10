@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Register</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        body {
+            background: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        .register-container {
+            max-width: 440px;
+            margin: 60px auto 0 auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.08);
+            padding: 36px 32px 28px 32px;
+        }
+        .register-title {
+            font-family: 'Raleway', Arial, sans-serif;
+            font-weight: 700;
+            color: #4267B2;
+            font-size: 2rem;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+        .register-form .form-control {
+            border-radius: 12px;
+            font-size: 1.1rem;
+            margin-bottom: 18px;
+            padding: 12px 16px;
+        }
+        .register-form .btn-primary {
+            background: #81c408;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 10px 0;
+            transition: background 0.2s;
+        }
+        .register-form .btn-primary:hover {
+            background: #6db106;
+        }
+        .register-form .form-text {
+            color: #888;
+            font-size: 0.97em;
+        }
+        .register-social {
+            margin-top: 18px;
+            text-align: center;
+        }
+        .register-social .btn {
+            margin: 0 6px;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+        .register-link {
+            margin-top: 18px;
+            text-align: center;
+        }
+        .register-link a {
+            color: #4267B2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        @media (max-width: 500px) {
+            .register-container {
+                margin: 20px auto 0 auto;
+                padding: 24px 20px 18px 20px;
+                border-radius: 12px;
+            }
+        }
+        
+        @media (min-height: 800px) {
+            .register-container {
+                margin: 100px auto 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="text-center mb-3">
+            <a href="index.html" class="text-decoration-none" style="color: #81c408; font-size: 0.9rem;">
+                <i class="fas fa-arrow-left me-2"></i>Back to Home
+            </a>
+        </div>
+        <div class="register-title">Create Account</div>
+        <form class="register-form">
+            <input type="text" name="full_name" class="form-control" placeholder="Full Name" required>
+            <input type="email" name="email" class="form-control" placeholder="Email" required>
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
+            <input type="password" name="password_confirm" class="form-control" placeholder="Confirm Password" required>
+            <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+            <div class="form-text mt-2 text-center">Or sign up with</div>
+            <div class="register-social">
+                <button type="button" class="btn btn-outline-primary" title="Facebook"><i class="fab fa-facebook-f"></i></button>
+                <button type="button" class="btn btn-outline-danger" title="Google"><i class="fab fa-google"></i></button>
+                <button type="button" class="btn btn-outline-dark" title="Apple"><i class="fab fa-apple"></i></button>
+            </div>
+            <div class="register-link">
+                <span>Already have an account? <a href="login.html">Sign In</a></span>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerForm = document.querySelector('.register-form');
+            
+            registerForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Clear previous messages
+                clearMessages(registerForm);
+                
+                // Get form data
+                const formData = new FormData(registerForm);
+                const userData = {
+                    full_name: formData.get('full_name') || registerForm.querySelector('input[placeholder="Full Name"]').value,
+                    email: formData.get('email') || registerForm.querySelector('input[placeholder="Email"]').value,
+                    username: formData.get('username') || registerForm.querySelector('input[placeholder="Email"]').value.split('@')[0],
+                    password: formData.get('password') || registerForm.querySelector('input[placeholder="Password"]').value,
+                    password_confirm: formData.get('password_confirm') || registerForm.querySelector('input[placeholder="Confirm Password"]').value
+                };
+
+                // Basic validation
+                if (!userData.full_name || !userData.email || !userData.password || !userData.password_confirm) {
+                    showError(registerForm, 'All fields are required');
+                    return;
+                }
+
+                if (userData.password !== userData.password_confirm) {
+                    showError(registerForm, 'Passwords do not match');
+                    return;
+                }
+
+                // Show loading
+                const submitBtn = registerForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Signing Up...';
+                submitBtn.disabled = true;
+
+                try {
+                    const result = await authAPI.register(userData);
+                    
+                    if (result.success) {
+                        showSuccess(registerForm, 'Registration successful! Redirecting to login...');
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 2000);
+                    } else {
+                        // Handle field-specific errors
+                        if (result.errors.email) {
+                            showError(registerForm, `Email: ${result.errors.email.join(', ')}`);
+                        } else if (result.errors.password) {
+                            showError(registerForm, `Password: ${result.errors.password.join(', ')}`);
+                        } else if (result.errors.non_field_errors) {
+                            showError(registerForm, result.errors.non_field_errors.join(', '));
+                        } else {
+                            showError(registerForm, 'Registration failed. Please try again.');
+                        }
+                    }
+                } catch (error) {
+                    showError(registerForm, 'Network error. Please check your connection.');
+                } finally {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

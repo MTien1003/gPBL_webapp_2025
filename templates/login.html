@@ -1,0 +1,196 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+    <!-- Icon Font Stylesheet -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Template Stylesheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+    <style>
+        body {
+            background: #f0f2f5;
+            margin: 0;
+            padding: 0;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 60px auto 0 auto;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.08);
+            padding: 36px 32px 28px 32px;
+        }
+        .login-title {
+            font-family: 'Raleway', Arial, sans-serif;
+            font-weight: 700;
+            color: #4267B2;
+            font-size: 2rem;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+        .login-form .form-control {
+            border-radius: 12px;
+            font-size: 1.1rem;
+            margin-bottom: 18px;
+            padding: 12px 16px;
+        }
+        .login-form .btn-primary {
+            background: #81c408;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            padding: 10px 0;
+            transition: background 0.2s;
+        }
+        .login-form .btn-primary:hover {
+            background: #6db106;
+        }
+        .login-form .form-text {
+            color: #888;
+            font-size: 0.97em;
+        }
+        .login-social {
+            margin-top: 18px;
+            text-align: center;
+        }
+        .login-social .btn {
+            margin: 0 6px;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+        .login-link {
+            margin-top: 18px;
+            text-align: center;
+        }
+        .login-link a {
+            color: #4267B2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        @media (max-width: 500px) {
+            .login-container {
+                margin: 20px auto 0 auto;
+                padding: 24px 20px 18px 20px;
+                border-radius: 12px;
+            }
+        }
+        
+        @media (min-height: 800px) {
+            .login-container {
+                margin: 100px auto 0 auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="text-center mb-3">
+            <a href="index.html" class="text-decoration-none" style="color: #81c408; font-size: 0.9rem;">
+                <i class="fas fa-arrow-left me-2"></i>Back to Home
+            </a>
+        </div>
+        <div class="login-title">Sign In</div>
+        <form class="login-form">
+            <input type="email" name="email" class="form-control" placeholder="Email" required>
+            <input type="password" name="password" class="form-control" placeholder="Password" required>
+            <button type="submit" class="btn btn-primary w-100">Sign In</button>
+            <div class="form-text mt-2 text-center">Or sign in with</div>
+            <div class="login-social">
+                <button type="button" class="btn btn-outline-primary" title="Facebook"><i class="fab fa-facebook-f"></i></button>
+                <button type="button" class="btn btn-outline-danger" title="Google"><i class="fab fa-google"></i></button>
+                <button type="button" class="btn btn-outline-dark" title="Apple"><i class="fab fa-apple"></i></button>
+            </div>
+            <div class="login-link">
+                <span>Don't have an account? <a href="register.html">Sign Up</a></span>
+            </div>
+        </form>
+    </div>
+
+    <!-- Optional: Footer hoặc các JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/auth.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.querySelector('.login-form');
+            
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Clear previous messages
+                clearMessages(loginForm);
+                
+                // Get form data
+                const formData = new FormData(loginForm);
+                const credentials = {
+                    email: formData.get('email'),
+                    password: formData.get('password')
+                };
+
+                // Basic validation
+                if (!credentials.email || !credentials.password) {
+                    showError(loginForm, 'Email and password are required');
+                    return;
+                }
+
+                // Show loading
+                const submitBtn = loginForm.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Signing In...';
+                submitBtn.disabled = true;
+
+                try {
+                    const result = await authAPI.login(credentials);
+                    
+                    if (result.success) {
+                        showSuccess(loginForm, 'Login successful! Redirecting...');
+                        // Store user info if needed
+                        localStorage.setItem('user', JSON.stringify(result.data.user));
+                        
+                        setTimeout(() => {
+                            // Redirect to main page or dashboard
+                            window.location.href = 'index.html';
+                        }, 1500);
+                    } else {
+                        if (result.errors.non_field_errors) {
+                            showError(loginForm, result.errors.non_field_errors.join(', '));
+                        } else if (result.errors.email) {
+                            showError(loginForm, 'Invalid email or password');
+                        } else {
+                            showError(loginForm, 'Login failed. Please try again.');
+                        }
+                    }
+                } catch (error) {
+                    showError(loginForm, 'Network error. Please check your connection.');
+                } finally {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }
+            });
+            
+            // Check if user is already logged in
+            authAPI.checkAuth().then(result => {
+                if (result.success && result.data.authenticated) {
+                    // User is already logged in, redirect to main page
+                    window.location.href = 'index.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

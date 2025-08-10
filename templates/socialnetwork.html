@@ -1,0 +1,1037 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>VietJap - Social Network</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="" name="keywords">
+        <meta content="" name="description">
+
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap" rel="stylesheet"> 
+
+        <!-- Icon Font Stylesheet -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+        <!-- Libraries Stylesheet -->
+        <link href="{% static 'lib/lightbox/css/lightbox.min.css' %}" rel="stylesheet">
+        <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
+        <!-- Template Stylesheet -->
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+        <!-- Custom Social Network Styles -->
+        <style>
+            .social-container {
+                background-color: #f0f2f5;
+                min-height: 100vh;
+            }
+            
+            .left-sidebar {
+                position: sticky;
+                top: 140px;
+                height: calc(100vh - 140px);
+                overflow-y: auto;
+            }
+            
+            .right-sidebar {
+                position: sticky;
+                top: 140px;
+                height: calc(100vh - 140px);
+                overflow-y: auto;
+            }
+            
+            .main-content {
+                max-width: 680px;
+                margin: 0 auto;
+            }
+            
+            .post-card {
+                background: white;
+                border-radius: 10px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                margin-bottom: 20px;
+                overflow: hidden;
+            }
+            
+            .post-header {
+                padding: 15px 20px;
+                border-bottom: 1px solid #e4e6ea;
+            }
+            
+            .post-content {
+                padding: 0 20px 15px;
+            }
+            
+            .post-image {
+                width: 100%;
+                height: 300px;
+                object-fit: cover;
+            }
+            
+            .post-actions {
+                padding: 10px 20px;
+                border-top: 1px solid #e4e6ea;
+                display: flex;
+                justify-content: space-around;
+            }
+            
+            .action-btn {
+                background: none;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 6px;
+                cursor: pointer;
+                color: #65676b;
+                font-weight: 600;
+                transition: all 0.2s;
+                flex: 1;
+                text-align: center;
+            }
+            
+            .action-btn:hover {
+                background-color: #f0f2f5;
+            }
+            
+            .action-btn.liked {
+                color: #1877f2;
+            }
+            
+            .sidebar-menu {
+                list-style: none;
+                padding: 0;
+            }
+            
+            .sidebar-menu li {
+                padding: 8px 0;
+            }
+            
+            .sidebar-menu li a {
+                text-decoration: none;
+                color: #050505;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                padding: 8px 12px;
+                border-radius: 8px;
+                transition: background-color 0.2s;
+            }
+            
+            .sidebar-menu li a:hover {
+                background-color: #e4e6ea;
+                color: #050505;
+            }
+            
+            .sidebar-menu li a i {
+                margin-right: 12px;
+                width: 20px;
+            }
+            
+            .profile-card {
+                background: white;
+                border-radius: 10px;
+                padding: 20px;
+                margin-bottom: 20px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            .create-post {
+                background: white;
+                border-radius: 10px;
+                padding: 20px;
+                margin-bottom: 20px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            .create-post-input {
+                background-color: #f0f2f5;
+                border: none;
+                border-radius: 25px;
+                padding: 12px 20px;
+                width: 100%;
+                resize: none;
+                outline: none;
+            }
+            
+            .create-post-actions {
+                display: flex;
+                justify-content: space-around;
+                margin-top: 15px;
+                padding-top: 15px;
+                border-top: 1px solid #e4e6ea;
+            }
+            
+            .online-friends {
+                background: white;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            .friend-item {
+                display: flex;
+                align-items: center;
+                padding: 8px 0;
+                cursor: pointer;
+                border-radius: 8px;
+                padding: 8px 12px;
+                transition: background-color 0.2s;
+            }
+            
+            .friend-item:hover {
+                background-color: #f0f2f5;
+            }
+            
+            .friend-avatar {
+                position: relative;
+                margin-right: 12px;
+            }
+            
+            .online-indicator {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 12px;
+                height: 12px;
+                background-color: #42b883;
+                border: 2px solid white;
+                border-radius: 50%;
+            }
+            
+            .story-container {
+                display: flex;
+                gap: 15px;
+                margin-bottom: 20px;
+                overflow-x: auto;
+                padding: 10px 0;
+            }
+            
+            .story-item {
+                min-width: 120px;
+                height: 200px;
+                border-radius: 10px;
+                position: relative;
+                cursor: pointer;
+                overflow: hidden;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            .story-bg {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.2s;
+            }
+            
+            .story-item:hover .story-bg {
+                transform: scale(1.05);
+            }
+            
+            .story-overlay {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: linear-gradient(transparent, rgba(0,0,0,0.7));
+                padding: 15px 10px 10px;
+                color: white;
+                font-size: 12px;
+                font-weight: 600;
+            }
+            
+            .create-story {
+                background: white;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                border: 2px dashed #e4e6ea;
+                transition: all 0.2s;
+            }
+            
+            .create-story:hover {
+                border-color: #1877f2;
+                background-color: #f0f8ff;
+            }
+            
+            .create-story i {
+                font-size: 24px;
+                color: #1877f2;
+                margin-bottom: 8px;
+            }
+            
+            .create-story span {
+                color: #050505;
+                font-weight: 600;
+                font-size: 12px;
+                text-align: center;
+            }
+            
+            .comment-section {
+                border-top: 1px solid #e4e6ea;
+                padding: 15px 20px 0;
+            }
+            
+            .comment-input {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 15px;
+            }
+            
+            .comment-input input {
+                flex: 1;
+                background-color: #f0f2f5;
+                border: none;
+                border-radius: 20px;
+                padding: 8px 15px;
+                outline: none;
+            }
+            
+            .comment {
+                display: flex;
+                gap: 10px;
+                margin-bottom: 10px;
+            }
+            
+            .comment-content {
+                background-color: #f0f2f5;
+                border-radius: 16px;
+                padding: 8px 12px;
+                flex: 1;
+            }
+            
+            .comment-author {
+                font-weight: 600;
+                font-size: 13px;
+                margin-bottom: 2px;
+            }
+            
+            .comment-text {
+                font-size: 14px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <!-- Spinner Start -->
+        <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-grow text-primary" role="status"></div>
+        </div>
+        <!-- Spinner End -->
+
+        <!-- Navbar start -->
+        <div class="container-fluid fixed-top">
+            <div class="container topbar bg-primary d-none d-lg-block">
+                <div class="d-flex justify-content-between">
+                    <div class="top-info ps-2">
+                        <small class="me-3"><i class="fas fa-map-marker-alt me-2 text-secondary"></i> <a href="#" class="text-white">1-1 Chiyoda, Chiyoda City, Tokyo, Japan</a></small>
+                        <small class="me-3"><i class="fas fa-envelope me-2 text-secondary"></i><a href="mailto:info@example.co.jp" class="text-white">info@example.co.jp</a></small>
+                    </div>
+                    <div class="top-link pe-2">
+                        <a href="#" class="text-white"><small class="text-white mx-2">Privacy Policy</small>/</a>
+                        <a href="#" class="text-white"><small class="text-white mx-2">Terms of Use</small>/</a>
+                        <a href="#" class="text-white"><small class="text-white ms-2">Sales and Refunds</small></a>
+                    </div>
+                </div>
+            </div>
+            <div class="container px-0">
+                <nav class="navbar navbar-light bg-white navbar-expand-xl">
+                    <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">VietJap</h1></a>
+                    <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                        <span class="fa fa-bars text-primary"></span>
+                    </button>
+                    <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
+                        <div class="navbar-nav mx-auto">
+                            <a href="index.html" class="nav-item nav-link">Home</a>
+                            <a href="socialnetwork.html" class="nav-item nav-link active">Social Network</a>
+                            <a href="about.html" class="nav-item nav-link">About</a>
+                            <a href="shop.html" class="nav-item nav-link">Shop</a>
+                            <a href="shop-detail.html" class="nav-item nav-link">Shop Detail</a>
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                                <div class="dropdown-menu m-0 bg-secondary rounded-0">
+                                    <a href="cart.html" class="dropdown-item">Cart</a>
+                                    <a href="checkout.html" class="dropdown-item">Checkout</a>
+                                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                    <a href="404.html" class="dropdown-item">404 Page</a>
+                                </div>
+                            </div>
+                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        </div>
+                        <div class="d-flex m-3 me-0">
+                            <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal">
+                                <i class="fas fa-search text-primary"></i>
+                            </button>
+                            <!-- Social Network Notifications -->
+                            <div class="dropdown me-3">
+                                <a href="#" class="position-relative my-auto dropdown-toggle" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-bell fa-2x text-primary"></i>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">3</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" style="width: 300px;" aria-labelledby="notificationDropdown">
+                                    <li><h6 class="dropdown-header">Notifications</h6></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-heart text-danger me-2"></i>Mai liked your photo</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-comment text-primary me-2"></i>Hiroshi commented on your post</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-user-plus text-success me-2"></i>Yuki wants to be friends</a></li>
+                                </ul>
+                            </div>
+                            <!-- Messages -->
+                            <div class="dropdown me-3">
+                                <a href="#" class="position-relative my-auto dropdown-toggle" id="messagesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-envelope fa-2x text-primary"></i>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success" style="font-size: 10px;">2</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" style="width: 300px;" aria-labelledby="messagesDropdown">
+                                    <li><h6 class="dropdown-header">Messages</h6></li>
+                                    <li><a class="dropdown-item" href="#"><img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle me-2" width="30" height="30">Mai: Great recipe!</a></li>
+                                    <li><a class="dropdown-item" href="#"><img src="https://randomuser.me/api/portraits/men/45.jpg" class="rounded-circle me-2" width="30" height="30">Hiroshi: Thanks for sharing!</a></li>
+                                </ul>
+                            </div>
+                            <div class="dropdown">
+                                <a href="#" class="position-relative me-4 my-auto dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle" width="40" height="40" alt="Profile">
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="login.html"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- Navbar End -->
+
+        <!-- Modal Search Start -->
+        <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content rounded-0">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Search for friends, recipes, posts...</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body d-flex align-items-center">
+                        <div class="input-group w-75 mx-auto d-flex">
+                            <input type="search" class="form-control p-3" placeholder="Search VietJap Community..." aria-describedby="search-icon-1">
+                            <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Search End -->
+
+        <!-- Social Network Content Start -->
+        <div class="social-container" style="padding-top: 140px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Left Sidebar -->
+                    <div class="col-lg-3 d-none d-lg-block">
+                        <div class="left-sidebar">
+                            <!-- User Profile Card -->
+                            <div class="profile-card">
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle me-3" width="50" height="50" alt="Profile">
+                                    <div>
+                                        <h6 class="mb-1">Akira Yamamoto</h6>
+                                        <small class="text-muted">Restaurant Owner</small>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <strong>125</strong><br><small>Posts</small>
+                                        </div>
+                                        <div class="col-4">
+                                            <strong>2.5K</strong><br><small>Friends</small>
+                                        </div>
+                                        <div class="col-4">
+                                            <strong>180</strong><br><small>Following</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Navigation Menu -->
+                            <div class="profile-card">
+                                <ul class="sidebar-menu">
+                                    <li><a href="#"><i class="fas fa-home text-primary"></i> News Feed</a></li>
+                                    <li><a href="#"><i class="fas fa-users text-success"></i> Friends</a></li>
+                                    <li><a href="#"><i class="fas fa-images text-info"></i> Photos</a></li>
+                                    <li><a href="#"><i class="fas fa-utensils text-warning"></i> Recipes</a></li>
+                                    <li><a href="#"><i class="fas fa-calendar text-danger"></i> Events</a></li>
+                                    <li><a href="#"><i class="fas fa-users text-secondary"></i> Groups</a></li>
+                                    <li><a href="#"><i class="fas fa-store text-primary"></i> Marketplace</a></li>
+                                    <li><a href="#"><i class="fas fa-bookmark text-info"></i> Saved</a></li>
+                                </ul>
+                            </div>
+
+                            <!-- Shortcuts -->
+                            <div class="profile-card">
+                                <h6 class="mb-3">Your Shortcuts</h6>
+                                <ul class="sidebar-menu">
+                                    <li><a href="#"><img src="https://th.bing.com/th/id/R.1621067649864cd27057717ff8fa4802?rik=2S8%2fIO0TYeRiyA&pid=ImgRaw&r=0" class="rounded me-3" width="20" height="20"> Vietnamese Cooking Group</a></li>
+                                    <li><a href="#"><img src="https://www.thedailymeal.com/img/gallery/expert-recommended-ingredients-japanese-cuisine-beginners-need-on-their-grocery-list/intro-1709919370.jpg" class="rounded me-3" width="20" height="20"> Japanese Ingredients</a></li>
+                                    <li><a href="#"><img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle me-3" width="20" height="20"> Food Lovers Tokyo</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Content -->
+                    <div class="col-lg-6 col-md-8">
+                        <div class="main-content">
+                            <!-- Stories Section -->
+                            <div class="story-container">
+                                <div class="story-item create-story">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Create<br>Story</span>
+                                </div>
+                                <div class="story-item">
+                                    <img src="https://cdn.asiastreetfood.com/uploads/Vietnam-Pho-Bo-Hanoi3-9277-2.jpg?strip=all&lossy=1&quality=80&ssl=1" class="story-bg" alt="Story">
+                                    <div class="story-overlay">
+                                        <img src="https://randomuser.me/api/portraits/women/68.jpg" class="rounded-circle me-2" width="24" height="24">
+                                        Yuki Tanaka
+                                    </div>
+                                </div>
+                                <div class="story-item">
+                                    <img src="https://cdn.antoursvietnam.com/wp-content/uploads/2024/04/Top-5-best-Banh-Mi-in-Saigon.jpg" class="story-bg" alt="Story">
+                                    <div class="story-overlay">
+                                        <img src="https://randomuser.me/api/portraits/men/45.jpg" class="rounded-circle me-2" width="24" height="24">
+                                        Hiroshi Sato
+                                    </div>
+                                </div>
+                                <div class="story-item">
+                                    <img src="https://thumbs.dreamstime.com/z/bowl-bun-cha-grilled-pork-noodles-side-side-bowl-bun-cha-grilled-pork-noodles-side-side-created-304089139.jpg?w=992" class="story-bg" alt="Story">
+                                    <div class="story-overlay">
+                                        <img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle me-2" width="24" height="24">
+                                        Mai Nguyen
+                                    </div>
+                                </div>
+                                <div class="story-item">
+                                    <img src="https://www.vietnam-travelonline.com/wp-content/uploads/2023/11/50d669e4faa74612bbaed118690d6cd6-1-scaled.jpg" class="story-bg" alt="Story">
+                                    <div class="story-overlay">
+                                        <img src="https://randomuser.me/api/portraits/women/55.jpg" class="rounded-circle me-2" width="24" height="24">
+                                        Emiko Watanabe
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Create Post -->
+                            <div class="create-post">
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle me-3" width="40" height="40" alt="Profile">
+                                    <textarea class="create-post-input" rows="1" placeholder="What's on your mind, Akira?"></textarea>
+                                </div>
+                                <div class="create-post-actions">
+                                    <button class="action-btn">
+                                        <i class="fas fa-video text-danger me-2"></i>Live Video
+                                    </button>
+                                    <button class="action-btn">
+                                        <i class="fas fa-images text-success me-2"></i>Photo/Video
+                                    </button>
+                                    <button class="action-btn">
+                                        <i class="fas fa-utensils text-warning me-2"></i>Recipe
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Posts Feed -->
+                            <!-- Post 1 -->
+                            <div class="post-card">
+                                <div class="post-header">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://randomuser.me/api/portraits/women/68.jpg" class="rounded-circle me-3" width="40" height="40" alt="Profile">
+                                            <div>
+                                                <h6 class="mb-0">Yuki Tanaka</h6>
+                                                <small class="text-muted">2 hours ago • <i class="fas fa-globe-americas"></i></small>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown">
+                                            <button class="btn" data-bs-toggle="dropdown">
+                                                <i class="fas fa-ellipsis-h"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-bookmark me-2"></i>Save post</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-flag me-2"></i>Report post</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="post-content">
+                                    <p>Just finished making the most amazing Pho Bo! 🍜 The broth simmered for 12 hours and the result was incredible. Using Japanese beef really made a difference! Thanks to VietJap for the authentic recipe. #PhoLove #VietnameseFood #TokyoEats</p>
+                                </div>
+                                <img src="https://cdn.asiastreetfood.com/uploads/Vietnam-Pho-Bo-Hanoi3-9277-2.jpg?strip=all&lossy=1&quality=80&ssl=1" class="post-image" alt="Pho Bo">
+                                <div class="post-actions">
+                                    <button class="action-btn liked" onclick="toggleLike(this)">
+                                        <i class="fas fa-heart me-2"></i><span>Like</span>
+                                    </button>
+                                    <button class="action-btn" onclick="toggleComments('comments1')">
+                                        <i class="fas fa-comment me-2"></i>Comment
+                                    </button>
+                                    <button class="action-btn">
+                                        <i class="fas fa-share me-2"></i>Share
+                                    </button>
+                                </div>
+                                <div id="comments1" class="comment-section" style="display: none;">
+                                    <div class="comment-input">
+                                        <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle" width="32" height="32" alt="Profile">
+                                        <input type="text" placeholder="Write a comment..." onkeypress="addComment(event, 'comments1')">
+                                    </div>
+                                    <div class="comment">
+                                        <img src="https://randomuser.me/api/portraits/men/45.jpg" class="rounded-circle" width="32" height="32" alt="Profile">
+                                        <div class="comment-content">
+                                            <div class="comment-author">Hiroshi Sato</div>
+                                            <div class="comment-text">Looks absolutely delicious! Can you share the recipe for the broth?</div>
+                                        </div>
+                                    </div>
+                                    <div class="comment">
+                                        <img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle" width="32" height="32" alt="Profile">
+                                        <div class="comment-content">
+                                            <div class="comment-author">Mai Nguyen</div>
+                                            <div class="comment-text">Perfect! This is exactly how we make it in Vietnam 👍</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Post 2 -->
+                            <div class="post-card">
+                                <div class="post-header">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://randomuser.me/api/portraits/men/45.jpg" class="rounded-circle me-3" width="40" height="40" alt="Profile">
+                                            <div>
+                                                <h6 class="mb-0">Hiroshi Sato</h6>
+                                                <small class="text-muted">5 hours ago • <i class="fas fa-globe-americas"></i></small>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown">
+                                            <button class="btn" data-bs-toggle="dropdown">
+                                                <i class="fas fa-ellipsis-h"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-bookmark me-2"></i>Save post</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-flag me-2"></i>Report post</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="post-content">
+                                    <p>Weekend project: Making fresh Banh Mi! 🥖 Found the perfect baguettes at the local Japanese bakery. The fusion of Vietnamese flavors with Japanese ingredients creates something truly special. Who wants to try this recipe? #BanhMi #WeekendCooking #FusionFood</p>
+                                </div>
+                                <img src="https://cdn.antoursvietnam.com/wp-content/uploads/2024/04/Top-5-best-Banh-Mi-in-Saigon.jpg" class="post-image" alt="Banh Mi">
+                                <div class="post-actions">
+                                    <button class="action-btn" onclick="toggleLike(this)">
+                                        <i class="fas fa-heart me-2"></i><span>Like</span>
+                                    </button>
+                                    <button class="action-btn" onclick="toggleComments('comments2')">
+                                        <i class="fas fa-comment me-2"></i>Comment
+                                    </button>
+                                    <button class="action-btn">
+                                        <i class="fas fa-share me-2"></i>Share
+                                    </button>
+                                </div>
+                                <div id="comments2" class="comment-section" style="display: none;">
+                                    <div class="comment-input">
+                                        <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle" width="32" height="32" alt="Profile">
+                                        <input type="text" placeholder="Write a comment..." onkeypress="addComment(event, 'comments2')">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Post 3 -->
+                            <div class="post-card">
+                                <div class="post-header">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle me-3" width="40" height="40" alt="Profile">
+                                            <div>
+                                                <h6 class="mb-0">Mai Nguyen</h6>
+                                                <small class="text-muted">1 day ago • <i class="fas fa-globe-americas"></i></small>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown">
+                                            <button class="btn" data-bs-toggle="dropdown">
+                                                <i class="fas fa-ellipsis-h"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-bookmark me-2"></i>Save post</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-flag me-2"></i>Report post</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="post-content">
+                                    <p>Teaching my Japanese friends how to make authentic Goi Cuon (Fresh Spring Rolls) 🌿 The key is getting the rice paper just right - not too wet, not too dry. Everyone loved them! Cultural exchange through food is the best! #GoiCuon #SpringRolls #CulturalExchange #VietnameseChef</p>
+                                </div>
+                                <img src="https://www.vietnam-travelonline.com/wp-content/uploads/2023/11/50d669e4faa74612bbaed118690d6cd6-1-scaled.jpg" class="post-image" alt="Goi Cuon">
+                                <div class="post-actions">
+                                    <button class="action-btn" onclick="toggleLike(this)">
+                                        <i class="fas fa-heart me-2"></i><span>Like</span>
+                                    </button>
+                                    <button class="action-btn" onclick="toggleComments('comments3')">
+                                        <i class="fas fa-comment me-2"></i>Comment
+                                    </button>
+                                    <button class="action-btn">
+                                        <i class="fas fa-share me-2"></i>Share
+                                    </button>
+                                </div>
+                                <div id="comments3" class="comment-section" style="display: none;">
+                                    <div class="comment-input">
+                                        <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle" width="32" height="32" alt="Profile">
+                                        <input type="text" placeholder="Write a comment..." onkeypress="addComment(event, 'comments3')">
+                                    </div>
+                                    <div class="comment">
+                                        <img src="https://randomuser.me/api/portraits/women/55.jpg" class="rounded-circle" width="32" height="32" alt="Profile">
+                                        <div class="comment-content">
+                                            <div class="comment-author">Emiko Watanabe</div>
+                                            <div class="comment-text">I was there! Such a fun cooking session. Mai is an amazing teacher! 😊</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Post 4 -->
+                            <div class="post-card">
+                                <div class="post-header">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <img src="https://randomuser.me/api/portraits/women/55.jpg" class="rounded-circle me-3" width="40" height="40" alt="Profile">
+                                            <div>
+                                                <h6 class="mb-0">Emiko Watanabe</h6>
+                                                <small class="text-muted">2 days ago • <i class="fas fa-globe-americas"></i></small>
+                                            </div>
+                                        </div>
+                                        <div class="dropdown">
+                                            <button class="btn" data-bs-toggle="dropdown">
+                                                <i class="fas fa-ellipsis-h"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-bookmark me-2"></i>Save post</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="fas fa-flag me-2"></i>Report post</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="post-content">
+                                    <p>Finally mastered the art of making Che Ba Mau! 🍧 Three beautiful layers representing the Vietnamese flag colors. Using Japanese premium ingredients really elevated this traditional dessert. Perfect for summer in Sendai! Recipe available on my profile. #CheBaMau #VietnameseDessert #Summer #Sendai</p>
+                                </div>
+                                <img src="https://www.simplyrecipes.com/thmb/hGF_Oyd0R22nOGcKYpwp3nS_Pcg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Simply-Recipes-Che-Ba-Mau-LEAD-2-c6162830ea634fa5ae0fab2d21276378.jpg" class="post-image" alt="Che Ba Mau">
+                                <div class="post-actions">
+                                    <button class="action-btn" onclick="toggleLike(this)">
+                                        <i class="fas fa-heart me-2"></i><span>Like</span>
+                                    </button>
+                                    <button class="action-btn" onclick="toggleComments('comments4')">
+                                        <i class="fas fa-comment me-2"></i>Comment
+                                    </button>
+                                    <button class="action-btn">
+                                        <i class="fas fa-share me-2"></i>Share
+                                    </button>
+                                </div>
+                                <div id="comments4" class="comment-section" style="display: none;">
+                                    <div class="comment-input">
+                                        <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle" width="32" height="32" alt="Profile">
+                                        <input type="text" placeholder="Write a comment..." onkeypress="addComment(event, 'comments4')">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Sidebar -->
+                    <div class="col-lg-3 d-none d-lg-block">
+                        <div class="right-sidebar">
+                            <!-- Online Friends -->
+                            <div class="online-friends">
+                                <h6 class="mb-3">Online Friends</h6>
+                                <div class="friend-item">
+                                    <div class="friend-avatar">
+                                        <img src="https://randomuser.me/api/portraits/women/68.jpg" class="rounded-circle" width="35" height="35" alt="Friend">
+                                        <div class="online-indicator"></div>
+                                    </div>
+                                    <span>Yuki Tanaka</span>
+                                </div>
+                                <div class="friend-item">
+                                    <div class="friend-avatar">
+                                        <img src="https://randomuser.me/api/portraits/men/45.jpg" class="rounded-circle" width="35" height="35" alt="Friend">
+                                        <div class="online-indicator"></div>
+                                    </div>
+                                    <span>Hiroshi Sato</span>
+                                </div>
+                                <div class="friend-item">
+                                    <div class="friend-avatar">
+                                        <img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle" width="35" height="35" alt="Friend">
+                                        <div class="online-indicator"></div>
+                                    </div>
+                                    <span>Mai Nguyen</span>
+                                </div>
+                                <div class="friend-item">
+                                    <div class="friend-avatar">
+                                        <img src="https://randomuser.me/api/portraits/women/55.jpg" class="rounded-circle" width="35" height="35" alt="Friend">
+                                        <div class="online-indicator"></div>
+                                    </div>
+                                    <span>Emiko Watanabe</span>
+                                </div>
+                                <div class="friend-item">
+                                    <div class="friend-avatar">
+                                        <img src="https://randomuser.me/api/portraits/men/35.jpg" class="rounded-circle" width="35" height="35" alt="Friend">
+                                        <div class="online-indicator"></div>
+                                    </div>
+                                    <span>Kenzo Nakamura</span>
+                                </div>
+                            </div>
+
+                            <!-- Suggested Friends -->
+                            <div class="online-friends mt-4">
+                                <h6 class="mb-3">People You May Know</h6>
+                                <div class="friend-item">
+                                    <img src="https://randomuser.me/api/portraits/women/25.jpg" class="rounded-circle me-3" width="35" height="35" alt="Friend">
+                                    <div class="flex-grow-1">
+                                        <div>Sakura Kimura</div>
+                                        <small class="text-muted">2 mutual friends</small>
+                                        <div class="mt-1">
+                                            <button class="btn btn-primary btn-sm">Add Friend</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="friend-item">
+                                    <img src="https://randomuser.me/api/portraits/men/18.jpg" class="rounded-circle me-3" width="35" height="35" alt="Friend">
+                                    <div class="flex-grow-1">
+                                        <div>Takeshi Fujiwara</div>
+                                        <small class="text-muted">5 mutual friends</small>
+                                        <div class="mt-1">
+                                            <button class="btn btn-primary btn-sm">Add Friend</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sponsored/Ads -->
+                            <div class="online-friends mt-4">
+                                <h6 class="mb-3">Sponsored</h6>
+                                <div class="card">
+                                    <img src="https://www.thedailymeal.com/img/gallery/expert-recommended-ingredients-japanese-cuisine-beginners-need-on-their-grocery-list/intro-1709919370.jpg" class="card-img-top" alt="Ad">
+                                    <div class="card-body p-3">
+                                        <h6 class="card-title">Premium Japanese Ingredients</h6>
+                                        <p class="card-text small">Get authentic Japanese ingredients delivered to your door. Perfect for Vietnamese-Japanese fusion cooking!</p>
+                                        <a href="#" class="btn btn-primary btn-sm">Learn More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Social Network Content End -->
+
+        <!-- Footer Start -->
+        <div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5">
+            <div class="container py-5">
+                <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(226, 175, 24, 0.5) ;">
+                    <div class="row g-4">
+                        <div class="col-lg-3">
+                            <a href="#">
+                                <h1 class="text-primary mb-0">VietJap</h1>
+                                <p class="text-secondary mb-0">Social Network</p>
+                            </a>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="position-relative mx-auto">
+                                <input class="form-control border-0 w-100 py-3 px-4 rounded-pill" type="email" placeholder="Your Email">
+                                <button type="submit" class="btn btn-primary border-0 border-secondary py-3 px-4 position-absolute rounded-pill text-white" style="top: 0; right: 0;">Subscribe Now</button>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="d-flex justify-content-end pt-3">
+                                <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-youtube"></i></a>
+                                <a class="btn btn-outline-secondary btn-md-square rounded-circle" href=""><i class="fab fa-linkedin-in"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row g-5">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-item">
+                            <h4 class="text-light mb-3">Community Guidelines</h4>
+                            <p class="mb-4">Building a respectful and inclusive community for Vietnamese food lovers in Japan.</p>
+                            <a href="" class="btn border-secondary py-2 px-4 rounded-pill text-primary">Read More</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="d-flex flex-column text-start footer-item">
+                            <h4 class="text-light mb-3">Community</h4>
+                            <a class="btn-link" href="">News Feed</a>
+                            <a class="btn-link" href="">Groups</a>
+                            <a class="btn-link" href="">Events</a>
+                            <a class="btn-link" href="">Recipes</a>
+                            <a class="btn-link" href="">Photos</a>
+                            <a class="btn-link" href="">Marketplace</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="d-flex flex-column text-start footer-item">
+                            <h4 class="text-light mb-3">Account</h4>
+                            <a class="btn-link" href="">Profile</a>
+                            <a class="btn-link" href="">Friends</a>
+                            <a class="btn-link" href="">Messages</a>
+                            <a class="btn-link" href="">Notifications</a>
+                            <a class="btn-link" href="">Settings</a>
+                            <a class="btn-link" href="">Privacy</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-item">
+                            <h4 class="text-light mb-3">Contact</h4>
+                            <p>Address: 1-1 Chiyoda, Chiyoda City, Tokyo, Japan</p>
+                            <p>Email: community@vietjap.com</p>
+                            <p>Phone: +81 3 1234 5678</p>
+                            <p>Follow Us</p>
+                            <div class="d-flex">
+                                <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-outline-secondary me-2 btn-md-square rounded-circle" href=""><i class="fab fa-instagram"></i></a>
+                                <a class="btn btn-outline-secondary btn-md-square rounded-circle" href=""><i class="fab fa-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Footer End -->
+
+        <!-- Copyright Start -->
+        <div class="container-fluid copyright bg-dark py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        <span class="text-light"><a href="#"><i class="fas fa-copyright text-light me-2"></i>VietJap Social Network</a>, All right reserved.</span>
+                    </div>
+                    <div class="col-md-6 my-auto text-center text-md-end text-white">
+                        Designed for Vietnamese Food Community in Japan
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Copyright End -->
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i class="fa fa-arrow-up"></i></a>   
+
+        <!-- JavaScript Libraries -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+        <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+        <script src="{% static 'lib/lightbox/js/lightbox.min.js' %}"></script>
+        <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+        <!-- Template Javascript -->
+        <script src="{% static 'js/main.js' %}"></script>
+
+        <!-- Social Network JavaScript -->
+        <script>
+            function toggleLike(button) {
+                button.classList.toggle('liked');
+                const icon = button.querySelector('i');
+                const text = button.querySelector('span');
+                
+                if (button.classList.contains('liked')) {
+                    icon.style.color = '#e74c3c';
+                    text.textContent = 'Liked';
+                    button.style.color = '#e74c3c';
+                } else {
+                    icon.style.color = '#65676b';
+                    text.textContent = 'Like';
+                    button.style.color = '#65676b';
+                }
+            }
+            
+            function toggleComments(commentsId) {
+                const commentsSection = document.getElementById(commentsId);
+                if (commentsSection.style.display === 'none' || commentsSection.style.display === '') {
+                    commentsSection.style.display = 'block';
+                } else {
+                    commentsSection.style.display = 'none';
+                }
+            }
+            
+            function addComment(event, commentsId) {
+                if (event.key === 'Enter' && event.target.value.trim() !== '') {
+                    const commentsSection = document.getElementById(commentsId);
+                    const newComment = document.createElement('div');
+                    newComment.className = 'comment';
+                    newComment.innerHTML = `
+                        <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle" width="32" height="32" alt="Profile">
+                        <div class="comment-content">
+                            <div class="comment-author">Akira Yamamoto</div>
+                            <div class="comment-text">${event.target.value}</div>
+                        </div>
+                    `;
+                    commentsSection.appendChild(newComment);
+                    event.target.value = '';
+                }
+            }
+            
+            // Auto-resize textarea
+            document.querySelector('.create-post-input').addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+            
+            // Story carousel effect
+            document.querySelectorAll('.story-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    if (!this.classList.contains('create-story')) {
+                        // Add story view functionality here
+                        console.log('Viewing story...');
+                    }
+                });
+            });
+            
+            // Notification count animation
+            let notificationCount = 3;
+            document.getElementById('notificationDropdown').addEventListener('click', function() {
+                setTimeout(() => {
+                    const badge = this.querySelector('.badge');
+                    badge.textContent = '0';
+                    badge.style.display = 'none';
+                }, 1000);
+            });
+            
+            // Messages count animation  
+            let messageCount = 2;
+            document.getElementById('messagesDropdown').addEventListener('click', function() {
+                setTimeout(() => {
+                    const badge = this.querySelector('.badge');
+                    badge.textContent = '0'; 
+                    badge.style.display = 'none';
+                }, 1000);
+            });
+            
+            // Smooth scroll for back to top
+            document.querySelector('.back-to-top').addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        </script>
+    </body>
+
+</html>

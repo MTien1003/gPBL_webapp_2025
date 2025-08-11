@@ -1,12 +1,22 @@
 from django.db import models
 
 class Dish(models.Model):
+
+    CATEGORY_CHOICES = [
+        ('noodles', 'Noodles'),
+        ('rice', 'Rice Dishes'),
+        ('appetizer', 'Appetizers'),
+        ('dessert', 'Desserts'),
+    ]
+
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     description = models.TextField()
-    image = models.ImageField(null=True, blank=True)
-    original_recipe = models.TextField()
+    image = models.ImageField(null=True, blank=True, upload_to='dish/')
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='noodles')
+    #original_recipe = models.TextField()
     alt_recipe = models.TextField()
+    
     
     def __str__(self):
         return self.name

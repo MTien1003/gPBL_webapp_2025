@@ -119,7 +119,7 @@
         <div class="container-fluid page-header py-5">
             <h1 class="text-center text-white display-6" id="dish-title">Vietnamese Food Recipe</h1>
             <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="home.html">Home</a></li>
                 <li class="breadcrumb-item"><a href="#">Vietnamese Food</a></li>
                 <li class="breadcrumb-item active text-white" id="dish-breadcrumb">Recipe Detail</li>
             </ol>
@@ -135,15 +135,16 @@
                             <div class="col-lg-6">
                                 <div class="border rounded">
                                     <a href="#" data-lightbox="dish-gallery">
-                                        <img id="main-image" src="https://cdn.asiastreetfood.com/uploads/Vietnam-Pho-Bo-Hanoi3-9277-2.jpg?strip=all&lossy=1&quality=80&ssl=1" class="img-fluid rounded" alt="Vietnamese Dish">
+                                        <img id="main-image" src="{{ dish.image.url }}" class="img-fluid rounded" alt="{{ dish.name }}">
+
                                     </a>
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <h4 class="fw-bold mb-3" id="dish-name">Pho Bo (Beef Noodle Soup)</h4>
-                                <p class="mb-3" id="dish-category">Category: Vietnamese Noodles</p>
+                                <h4 class="fw-bold mb-3" id="dish-name">{{ dish.name }}</h4>
+                                <p class="mb-3" id="dish-category">Category: {{ dish.get_category_display }}</p>
                                 <h5 class="fw-bold mb-3">Description:</h5>
-                                <p id="dish-description">Traditional Vietnamese beef noodle soup with aromatic broth, rice noodles, and fresh herbs. This iconic dish represents the heart of Vietnamese cuisine with its complex flavors and comforting warmth.</p>
+                                <p id="dish-description">{{ dish.description }}</p>
                                 <div class="d-flex mb-4">
                                     <i class="fa fa-star text-secondary"></i>
                                     <i class="fa fa-star text-secondary"></i>

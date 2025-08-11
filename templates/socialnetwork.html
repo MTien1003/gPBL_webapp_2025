@@ -318,6 +318,14 @@
             .comment-text {
                 font-size: 14px;
             }
+
+            #form-container {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            background-color: #f0f0f0;
+        }
         </style>
     </head>
 
@@ -534,7 +542,8 @@
                             <div class="create-post">
                                 <div class="d-flex align-items-center mb-3">
                                     <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle me-3" width="40" height="40" alt="Profile">
-                                    <textarea class="create-post-input" rows="1" placeholder="What's on your mind, Akira?"></textarea>
+                                    <!--<textarea class="create-post-input" rows="1" placeholder="What's on your mind, Akira?"></textarea>-->
+                                    <input type="text", class="create-post-input", placeholder="What's on your mind, Akira?" readonly>
                                 </div>
                                 <div class="create-post-actions">
                                     <button class="action-btn">

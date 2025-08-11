@@ -1,8 +1,9 @@
 from django.forms import ModelForm
-from .models import Page
+from django import forms
+from .models import Comment
 
 
-class PageForm(ModelForm):
+class CommentForm(ModelForm):
     class Meta:
-        model = Page
-        fields = ["body"]
+        model = Comment
+        fields = ['text']

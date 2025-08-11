@@ -541,11 +541,11 @@
                                 <div class="d-flex align-items-center mb-3">
                                     <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle me-3" width="40" height="40" alt="Profile">
                                     <!--<textarea class="create-post-input" rows="1" placeholder="What's on your mind, Akira?"></textarea>-->
-                                    <input type="text"  class="create-post-input", placeholder="What's on your mind?" onclick="showForm();">
+                                   <input type="text"  class="create-post-input", placeholder="What's on your mind?" onclick="showForm();">
 
                                     <!--非表示のフォーム-->
                                     <div id="formArea" style="display:none;">
-                                          <form method="post">
+                                          <form method="post" enctype="multipart/form-data">
                                             {% csrf_token %}
                                             {{ form.as_p }}
                                             <button type="submit">post</button>

@@ -19,9 +19,8 @@ class CartDetail(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     
     def get_total_price(self):
-        return self.quantity * self.price
+        return self.quantity * self.ingredient.price
 
 

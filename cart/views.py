@@ -1,8 +1,8 @@
+from django.views.decorators.csrf import csrf_exempt
 from itertools import product
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 import json
-
 from cart.models import Cart
 from cart.models import CartDetail
 from order.models import Order
@@ -73,3 +73,27 @@ def updateItem(request):
     except Exception as e:
         print(f"Error: {str(e)}")  # Debug
         return JsonResponse({'error': str(e)}, status=500)
+    
+    
+    
+    # Thêm vào cart nhiều nguyên liệu cùng lúc
+@csrf_exempt
+def add_ingredients(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            ingredient_ids = data.get('ingredient_ids', [])
+            if not request.user.is_authenticated:
+                return JsonResponse({'status': 'error', 'message': 'User not authenticated'}, status=401)
+            user = request.user
+            cart, created = Cart.objects.get_or_create(user=user)
+            for ing_id in ingredient_ids:
+                ingredient = Ingredient.objects.get(id=ing_id)
+                cart_detail, created = CartDetail.objects.get_or_create(cart=cart, ingredient=ingredient)
+                if not created:
+                    cart_detail.quantity += 1
+                cart_detail.save()
+            return JsonResponse({'status': 'success'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request'}, status=400)

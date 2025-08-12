@@ -620,11 +620,10 @@
                         </div>
 
                         <!-- Create Post -->
-                        <div class="create-post">
+                        <div id="postFormContainer" class="create-post">
                             <!--Post Detail-->
                             <form id="form" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
-
                                 <div class="d-flex align-items-center mb-3">
                                     <img src="https://randomuser.me/api/portraits/men/22.jpg"
                                         class="rounded-circle me-3" width="40" height="40" alt="Profile">
@@ -636,204 +635,16 @@
                                     <label for="imageUpload" class="action-btn">
                                         <i class="fas fa-images text-success me-2"></i>Photo/Video
                                     </label>
+                                    <input type="file" id="imageUpload" name="image" accept="image/*,video/*" style="display:none;">
                                 </div>
                                 <div id="filePreview" style="margin-left:60px; margin-top:10px;"></div>
-
-                                
+                                <div class="text-start mt-3">
+                                    <button type="submit" class="btn btn-primary">投稿</button>
+                                </div>
+                            </form>
                         </div>
 
-                        <!-- Posts Feed -->
-                        <!-- Post 1 -->
-                        <div class="post-card">
-                            <div class="post-header">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center">
-                                        <img src="https://randomuser.me/api/portraits/women/68.jpg"
-                                            class="rounded-circle me-3" width="40" height="40" alt="Profile">
-                                        <div>
-                                            <h6 class="mb-0">Yuki Tanaka</h6>
-                                            <small class="text-muted">2 hours ago • <i
-                                                    class="fas fa-globe-americas"></i></small>
-                                        </div>
-                                    </div>
-                                    <div class="dropdown">
-                                        <button class="btn" data-bs-toggle="dropdown">
-                                            <i class="fas fa-ellipsis-h"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#"><i
-                                                        class="fas fa-bookmark me-2"></i>Save post</a></li>
-                                            <li><a class="dropdown-item" href="#"><i class="fas fa-flag me-2"></i>Report
-                                                    post</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="post-content">
-                                <p>Just finished making the most amazing Pho Bo! 🍜 The broth simmered for 12 hours and
-                                    the result was incredible. Using Japanese beef really made a difference! Thanks to
-                                    VietJap for the authentic recipe. #PhoLove #VietnameseFood #TokyoEats</p>
-                            </div>
-                            <img src="https://cdn.asiastreetfood.com/uploads/Vietnam-Pho-Bo-Hanoi3-9277-2.jpg?strip=all&lossy=1&quality=80&ssl=1"
-                                class="post-image" alt="Pho Bo">
-                            <div class="post-actions">
-                                <button class="action-btn liked" onclick="toggleLike(this)">
-                                    <i class="fas fa-heart me-2"></i><span>Like</span>
-                                </button>
-                                <button class="action-btn" onclick="toggleComments('comments1')">
-                                    <i class="fas fa-comment me-2"></i>Comment
-                                </button>
-                                <button class="action-btn">
-                                    <i class="fas fa-share me-2"></i>Share
-                                </button>
-                            </div>
-                            <div id="comments1" class="comment-section" style="display: none;">
-                                <div class="comment-input">
-                                    <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle"
-                                        width="32" height="32" alt="Profile">
-                                    <input type="text" placeholder="Write a comment..."
-                                        onkeypress="addComment(event, 'comments1')">
-                                </div>
-                                <div class="comment">
-                                    <img src="https://randomuser.me/api/portraits/men/45.jpg" class="rounded-circle"
-                                        width="32" height="32" alt="Profile">
-                                    <div class="comment-content">
-                                        <div class="comment-author">Hiroshi Sato</div>
-                                        <div class="comment-text">Looks absolutely delicious! Can you share the recipe
-                                            for the broth?</div>
-                                    </div>
-                                </div>
-                                <div class="comment">
-                                    <img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle"
-                                        width="32" height="32" alt="Profile">
-                                    <div class="comment-content">
-                                        <div class="comment-author">Mai Nguyen</div>
-                                        <div class="comment-text">Perfect! This is exactly how we make it in Vietnam 👍
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Post 2 -->
-                        <div class="post-card">
-                            <div class="post-header">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center">
-                                        <img src="https://randomuser.me/api/portraits/men/45.jpg"
-                                            class="rounded-circle me-3" width="40" height="40" alt="Profile">
-                                        <div>
-                                            <h6 class="mb-0">Hiroshi Sato</h6>
-                                            <small class="text-muted">5 hours ago • <i
-                                                    class="fas fa-globe-americas"></i></small>
-                                        </div>
-                                    </div>
-                                    <div class="dropdown">
-                                        <button class="btn" data-bs-toggle="dropdown">
-                                            <i class="fas fa-ellipsis-h"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#"><i
-                                                        class="fas fa-bookmark me-2"></i>Save post</a></li>
-                                            <li><a class="dropdown-item" href="#"><i class="fas fa-flag me-2"></i>Report
-                                                    post</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="post-content">
-                                <p>Weekend project: Making fresh Banh Mi! 🥖 Found the perfect baguettes at the local
-                                    Japanese bakery. The fusion of Vietnamese flavors with Japanese ingredients creates
-                                    something truly special. Who wants to try this recipe? #BanhMi #WeekendCooking
-                                    #FusionFood</p>
-                            </div>
-                            <img src="https://cdn.antoursvietnam.com/wp-content/uploads/2024/04/Top-5-best-Banh-Mi-in-Saigon.jpg"
-                                class="post-image" alt="Banh Mi">
-                            <div class="post-actions">
-                                <button class="action-btn" onclick="toggleLike(this)">
-                                    <i class="fas fa-heart me-2"></i><span>Like</span>
-                                </button>
-                                <button class="action-btn" onclick="toggleComments('comments2')">
-                                    <i class="fas fa-comment me-2"></i>Comment
-                                </button>
-                                <button class="action-btn">
-                                    <i class="fas fa-share me-2"></i>Share
-                                </button>
-                            </div>
-                            <div id="comments2" class="comment-section" style="display: none;">
-                                <div class="comment-input">
-                                    <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle"
-                                        width="32" height="32" alt="Profile">
-                                    <input type="text" placeholder="Write a comment..."
-                                        onkeypress="addComment(event, 'comments2')">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Post 3 -->
-                        <div class="post-card">
-                            <div class="post-header">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center">
-                                        <img src="https://randomuser.me/api/portraits/women/32.jpg"
-                                            class="rounded-circle me-3" width="40" height="40" alt="Profile">
-                                        <div>
-                                            <h6 class="mb-0">Mai Nguyen</h6>
-                                            <small class="text-muted">1 day ago • <i
-                                                    class="fas fa-globe-americas"></i></small>
-                                        </div>
-                                    </div>
-                                    <div class="dropdown">
-                                        <button class="btn" data-bs-toggle="dropdown">
-                                            <i class="fas fa-ellipsis-h"></i>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#"><i
-                                                        class="fas fa-bookmark me-2"></i>Save post</a></li>
-                                            <li><a class="dropdown-item" href="#"><i class="fas fa-flag me-2"></i>Report
-                                                    post</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="post-content">
-                                <p>Teaching my Japanese friends how to make authentic Goi Cuon (Fresh Spring Rolls) 🌿
-                                    The key is getting the rice paper just right - not too wet, not too dry. Everyone
-                                    loved them! Cultural exchange through food is the best! #GoiCuon #SpringRolls
-                                    #CulturalExchange #VietnameseChef</p>
-                            </div>
-                            <img src="https://www.vietnam-travelonline.com/wp-content/uploads/2023/11/50d669e4faa74612bbaed118690d6cd6-1-scaled.jpg"
-                                class="post-image" alt="Goi Cuon">
-                            <div class="post-actions">
-                                <button class="action-btn" onclick="toggleLike(this)">
-                                    <i class="fas fa-heart me-2"></i><span>Like</span>
-                                </button>
-                                <button class="action-btn" onclick="toggleComments('comments3')">
-                                    <i class="fas fa-comment me-2"></i>Comment
-                                </button>
-                                <button class="action-btn">
-                                    <i class="fas fa-share me-2"></i>Share
-                                </button>
-                            </div>
-                            <div id="comments3" class="comment-section" style="display: none;">
-                                <div class="comment-input">
-                                    <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle"
-                                        width="32" height="32" alt="Profile">
-                                    <input type="text" placeholder="Write a comment..."
-                                        onkeypress="addComment(event, 'comments3')">
-                                </div>
-                                <div class="comment">
-                                    <img src="https://randomuser.me/api/portraits/women/55.jpg" class="rounded-circle"
-                                        width="32" height="32" alt="Profile">
-                                    <div class="comment-content">
-                                        <div class="comment-author">Emiko Watanabe</div>
-                                        <div class="comment-text">I was there! Such a fun cooking session. Mai is an
-                                            amazing teacher! 😊</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        
                         <!-- Post 4 -->
                         <div class="post-card">
                             <div class="post-header">

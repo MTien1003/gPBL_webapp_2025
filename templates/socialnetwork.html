@@ -348,7 +348,6 @@
         #postTextBox:focus {
             border-color: #4A90E2;
         }
-
     </style>
     <script>
         function showForm() {
@@ -629,13 +628,14 @@
                                         class="rounded-circle me-3" width="40" height="40" alt="Profile">
                                     <textarea id="postTextBox" name="text" tabindex="0" row="1"
                                         placeholder="What's on your mind?"></textarea>
-                                        <!--Photo/Video btn-->
+                                    <!--Photo/Video btn-->
                                 </div>
                                 <div class="create-post-actions">
                                     <label for="imageUpload" class="action-btn">
                                         <i class="fas fa-images text-success me-2"></i>Photo/Video
                                     </label>
-                                    <input type="file" id="imageUpload" name="image" accept="image/*,video/*" style="display:none;">
+                                    <input type="file" id="imageUpload" name="image" accept="image/*,video/*"
+                                        style="display:none;">
                                 </div>
                                 <div id="filePreview" style="margin-left:60px; margin-top:10px;"></div>
                                 <div class="text-start mt-3">
@@ -646,61 +646,39 @@
 
                         <!--投稿一覧表示-->
                         <div id="postsContainer">
-                            <div id="posts">
+                            <div id="social">
                                 <!-- 投稿一覧がここに追加されます -->
                             </div>
                         </div>
 
                         <script>
                             $(document).ready(function () {
-                                function showPostButton() {
-                                    $('#postTextBox').addClass('expanded');
-                                    $('#postForm').addClass('show');
-                                }
-                    
-                                function hidePostButton() {
-                                    $('#postTextBox').removeClass('expanded');
-                                    $('#postForm').removeClass('show');
-                                }
-                    
-                                // テキストボックスにフォーカスしたら投稿ボタンを表示
-                                $('#postTextBox').on('focus', showPostButton);
-                    
-                                // テキストボックスが空の場合、フォーカスを外したら投稿ボタンを非表示
-                                $('#postTextBox').on('blur', function () {
-                                    if ($(this).val().trim() === '') hidePostButton();
-                                });
-                    
-                                $('#imageUpload').on('change', function () {
-                                    if (this.files.length > 0) showPostButton();
-                                });
-                    
-                                document.getElementById('imageUpload').addEventListener('change', function () {
-                                    const preview = document.getElementById('filePreview');
-                                    preview.innerHTML = '';
-                    
-                                    if (this.files && this.files[0]) {
-                                        const file = this.files[0];
-                                        const fileType = file.type;
-                    
-                                        if (fileType.startsWith('image/')) {
-                                            const reader = new FileReader();
-                                            reader.onload = (e) => {
-                                                preview.innerHTML = `<img src="${e.target.result}" alt="プレビュー" style="max-width:150px; max-height:150px; border-radius:6px;">`;
-                                            };
-                                            reader.readAsDataURL(file);
-                                        } else {
-                                            preview.innerHTML = `<p>${fileType.startsWith('video/') ? '📹' : '📄'} ${file.name}</p>`;
+                                // CSRFトークンをAjaxリクエストに追加
+                                function getCookie(name) {
+                                    let cookieValue = null;
+                                    if (document.cookie && document.cookie !== '') {
+                                        const cookies = document.cookie.split(';');
+                                        for (let i = 0; i < cookies.length; i++) {
+                                            const cookie = cookies[i].trim();
+                                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                                break;
+                                            }
                                         }
                                     }
-                                });
-                    
+                                    return cookieValue;
+                                }
+                                const csrftoken = getCookie('csrftoken');
+
                                 $('#form').on('submit', function (event) {
                                     event.preventDefault();
-                    
+
                                     $.ajax({
-                                        url: '{% url "social:socialnetwork" %}', 
+                                        url: '{% url "social:socialnetwork" %}',
                                         type: 'POST',
+                                        headers: {
+                                            'X-CSRFToken': csrftoken
+                                        },
                                         data: new FormData(this),
                                         processData: false,
                                         contentType: false,
@@ -710,15 +688,15 @@
                                                 const now = new Date();
                                                 const hoursAgo = Math.floor((now - createdAt) / (1000 * 60 * 60));
                                                 const timeDisplay = hoursAgo > 0 ? `${hoursAgo - 7}時間前` : 'たった今';
-                    
+
                                                 const newPost = `
                                                 <div class="post-card">
                                                     <div class="post-header">
                                                         <div class="d-flex align-items-center justify-content-between">
                                                             <div class="d-flex align-items-center">
-                                                                <img src="https://randomuser.me/api/portraits/women/68.jpg" class="rounded-circle me-3" width="40" height="40" alt="Profile">
+                                                                <img src="${response.profile_image}" class="rounded-circle me-3" width="40" height="40" alt="Profile">
                                                                 <div>
-                                                                    <h6 class="mb-0">Yuki Tanaka</h6>
+                                                                    <h6 class="mb-0">${response.username}</h6>
                                                                     <small class="text-muted">${timeDisplay} • <i class="fas fa-globe-americas"></i></small>
                                                                 </div>
                                                             </div>
@@ -743,61 +721,50 @@
                                                         <button class="action-btn liked" onclick="toggleLike(this)">
                                                             <i class="fas fa-heart me-2"></i><span>Like</span>
                                                         </button>
-                                                        <button class="action-btn" onclick="toggleComments('comments1')">
+                                                        <button class="action-btn" onclick="toggleComments('comments${response.post_id}')">
                                                             <i class="fas fa-comment me-2"></i>Comment
                                                         </button>
                                                         <button class="action-btn">
                                                             <i class="fas fa-share me-2"></i>Share
                                                         </button>
                                                     </div>
-                                                    <div id="comments1" class="comment-section" style="display: none;">
+                                                    <div id="comments${response.post_id}" class="comment-section" style="display: none;">
                                                         <div class="comment-input">
-                                                            <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle" width="32" height="32" alt="Profile">
-                                                            <input type="text" placeholder="Write a comment..." onkeypress="addComment(event, 'comments1')">
-                                                        </div>
-                                                        <div class="comment">
-                                                            <img src="https://randomuser.me/api/portraits/men/45.jpg" class="rounded-circle" width="32" height="32" alt="Profile">
-                                                            <div class="comment-content">
-                                                                <div class="comment-author">Hiroshi Sato</div>
-                                                                <div class="comment-text">Looks absolutely delicious! Can you share the recipe for the broth?</div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="comment">
-                                                            <img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle" width="32" height="32" alt="Profile">
-                                                            <div class="comment-content">
-                                                                <div class="comment-author">Mai Nguyen</div>
-                                                                <div class="comment-text">Perfect! This is exactly how we make it in Vietnam 👍</div>
-                                                            </div>
+                                                            <img src="${response.profile_image}" class="rounded-circle" width="32" height="32" alt="Profile">
+                                                            <input type="text" placeholder="Write a comment..." onkeypress="addComment(event, 'comments${response.post_id}')">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 `;
-                    
-                                                $('#posts').prepend(newPost);
-                    
+
+                                                $('#social').prepend(newPost);
+
                                                 // 投稿が4つを超えた場合、古い投稿を削除
-                                                const posts = $('#posts .post-card');
+                                                const posts = $('#social .post-card');
                                                 if (posts.length > 4) {
                                                     posts.last().remove();
                                                 }
-                    
+
                                                 $('#form')[0].reset();
                                                 $('#filePreview').empty();
                                                 $('#imageUpload').val('');
-                                                hidePostButton();
                                             } else {
+                                                console.error('Error:', response);
                                                 alert('エラーが発生しました');
                                             }
                                         },
-                                        error: function () {
+                                        error: function (xhr, status, error) {
+                                            console.error('Ajax Error:', status, error);
+                                            console.error('Response:', xhr.responseText);
                                             alert('通信エラーが発生しました');
                                         }
                                     });
                                 });
                             });
                         </script>
-                        
-                        <!-- Post 4 -->
+
+                        <!--
+                        Post 4 
                         <div class="post-card">
                             <div class="post-header">
                                 <div class="d-flex align-items-center justify-content-between">
@@ -851,6 +818,7 @@
                                 </div>
                             </div>
                         </div>
+                    -->
                     </div>
                 </div>
 

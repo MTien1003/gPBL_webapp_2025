@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.views import View
-from .forms import CommentForm
-from .models import Comment
+from .forms import PostForm
+from .models import Post
 from django.http import HttpResponse
 
 def socialnetwork(request):
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        form = CommentForm(request.POST, request.FILES)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             post = form.save() 
             return JsonResponse({
@@ -19,6 +19,6 @@ def socialnetwork(request):
                 })
         else:
             return JsonResponse({'status': 'error', 'errors': form.errors})
-    return render(request, 'socialnetwork.html', {'form': CommentForm()})
+    return render(request, 'socialnetwork.html', {'form': PostForm()})
 
         

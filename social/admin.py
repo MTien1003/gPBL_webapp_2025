@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Comment
+from .models import Post
 
-@admin.register(Comment)
-class PageAdmin(admin.ModelAdmin):
-    readonly_fields = ('id', 'created_at')
+
+admin.site.register(Post)

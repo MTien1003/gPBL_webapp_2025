@@ -346,13 +346,13 @@
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">VietJap</h1></a>
+                    <a href="home.html" class="navbar-brand"><h1 class="text-primary display-6">VietJap</h1></a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars text-primary"></span>
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="index.html" class="nav-item nav-link">Home</a>
+                            <a href="home.html" class="nav-item nav-link">Home</a>
                             <a href="socialnetwork.html" class="nav-item nav-link active">Social Network</a>
                             <a href="about.html" class="nav-item nav-link">About</a>
                             <a href="shop.html" class="nav-item nav-link">Shop</a>
@@ -372,40 +372,40 @@
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal">
                                 <i class="fas fa-search text-primary"></i>
                             </button>
+                            {% if user.is_authenticated %}
                             <!-- Social Network Notifications -->
                             <div class="dropdown me-3">
                                 <a href="#" class="position-relative my-auto dropdown-toggle" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-bell fa-2x text-primary"></i>
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">3</span>
+                                    <!--<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 10px;">3</span>-->
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" style="width: 300px;" aria-labelledby="notificationDropdown">
                                     <li><h6 class="dropdown-header">Notifications</h6></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-heart text-danger me-2"></i>Mai liked your photo</a></li>
+                                    <!--<li><a class="dropdown-item" href="#"><i class="fas fa-heart text-danger me-2"></i>Mai liked your photo</a></li>
                                     <li><a class="dropdown-item" href="#"><i class="fas fa-comment text-primary me-2"></i>Hiroshi commented on your post</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-user-plus text-success me-2"></i>Yuki wants to be friends</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-user-plus text-success me-2"></i>Yuki wants to be friends</a></li>-->
                                 </ul>
                             </div>
                             <!-- Messages -->
                             <div class="dropdown me-3">
                                 <a href="#" class="position-relative my-auto dropdown-toggle" id="messagesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-envelope fa-2x text-primary"></i>
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success" style="font-size: 10px;">2</span>
+                                    <!--<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success" style="font-size: 10px;">2</span>-->
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" style="width: 300px;" aria-labelledby="messagesDropdown">
                                     <li><h6 class="dropdown-header">Messages</h6></li>
-                                    <li><a class="dropdown-item" href="#"><img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle me-2" width="30" height="30">Mai: Great recipe!</a></li>
-                                    <li><a class="dropdown-item" href="#"><img src="https://randomuser.me/api/portraits/men/45.jpg" class="rounded-circle me-2" width="30" height="30">Hiroshi: Thanks for sharing!</a></li>
+                                    <!--<li><a class="dropdown-item" href="#"><img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle me-2" width="30" height="30">Mai: Great recipe!</a></li>
+                                    <li><a class="dropdown-item" href="#"><img src="https://randomuser.me/api/portraits/men/45.jpg" class="rounded-circle me-2" width="30" height="30">Hiroshi: Thanks for sharing!</a></li>-->
                                 </ul>
                             </div>
+                            {% endif %}
                             <div class="dropdown">
                                 <a href="#" class="position-relative me-4 my-auto dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle" width="40" height="40" alt="Profile">
+                                    <i class="fas fa-user fa-2x text-primary"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="login.html"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                                    <li><a class="dropdown-item" href="login.html"><i class="fas fa-sign-in-alt me-2"></i>Login</a></li>
+                                    <li><a class="dropdown-item" href="register.html"><i class="fas fa-user-plus me-2"></i>Register</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -441,29 +441,31 @@
                     <!-- Left Sidebar -->
                     <div class="col-lg-3 d-none d-lg-block">
                         <div class="left-sidebar">
-                            <!-- User Profile Card -->
-                            <div class="profile-card">
-                                <div class="d-flex align-items-center mb-3">
-                                    <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle me-3" width="50" height="50" alt="Profile">
-                                    <div>
-                                        <h6 class="mb-1">Akira Yamamoto</h6>
-                                        <small class="text-muted">Restaurant Owner</small>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <strong>125</strong><br><small>Posts</small>
-                                        </div>
-                                        <div class="col-4">
-                                            <strong>2.5K</strong><br><small>Friends</small>
-                                        </div>
-                                        <div class="col-4">
-                                            <strong>180</strong><br><small>Following</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {% if user.is_authenticated %}
+                                                        <!-- User Profile Card -->
+                                                        <div class="profile-card">
+                                                            <div class="d-flex align-items-center mb-3">
+                                                                <img src="{% static 'img/avatar.jpg' %}" class="rounded-circle me-3" width="50" height="50" alt="Profile">
+                                                                <div>
+                                                                    <h6 class="mb-1">{{ user.username }}</h6>
+                                                                    <small class="text-muted">Restaurant Owner</small>
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-center">
+                                                                <div class="row">
+                                                                    <div class="col-4">
+                                                                        <strong>125</strong><br><small>Posts</small>
+                                                                    </div>
+                                                                    <div class="col-4">
+                                                                        <strong>2.5K</strong><br><small>Friends</small>
+                                                                    </div>
+                                                                    <div class="col-4">
+                                                                        <strong>180</strong><br><small>Following</small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                            {% endif %}
 
                             <!-- Navigation Menu -->
                             <div class="profile-card">
@@ -533,19 +535,19 @@
                             <!-- Create Post -->
                             <div class="create-post">
                                 <div class="d-flex align-items-center mb-3">
-                                    <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle me-3" width="40" height="40" alt="Profile">
-                                    <textarea class="create-post-input" rows="1" placeholder="What's on your mind, Akira?"></textarea>
+                                    <img src="{% static 'img/avatar.jpg' %}" class="rounded-circle me-3" width="40" height="40" alt="Profile">
+                                    <textarea class="create-post-input" rows="1" placeholder="What's on your mind, {% if user.is_authenticated %}{{ user.first_name|default:user.username }}{% else %}Guest{% endif %}?"></textarea>
                                 </div>
                                 <div class="create-post-actions">
-                                    <button class="action-btn">
+                                    <!--<button class="action-btn">
                                         <i class="fas fa-video text-danger me-2"></i>Live Video
-                                    </button>
+                                    </button>-->
                                     <button class="action-btn">
                                         <i class="fas fa-images text-success me-2"></i>Photo/Video
                                     </button>
-                                    <button class="action-btn">
+                                    <!--<button class="action-btn">
                                         <i class="fas fa-utensils text-warning me-2"></i>Recipe
-                                    </button>
+                                    </button>-->
                                 </div>
                             </div>
 

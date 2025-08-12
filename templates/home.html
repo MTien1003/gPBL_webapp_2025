@@ -56,13 +56,13 @@
             </div>
             <div class="container px-0">
                 <nav class="navbar navbar-light bg-white navbar-expand-xl">
-                    <a href="index.html" class="navbar-brand"><h1 class="text-primary display-6">VietJap</h1></a>
+                    <a href="home.html" class="navbar-brand"><h1 class="text-primary display-6">VietJap</h1></a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars text-primary"></span>
                     </button>
                     <div class="collapse navbar-collapse bg-white" id="navbarCollapse">
                         <div class="navbar-nav mx-auto">
-                            <a href="index.html" class="nav-item nav-link active">Home</a>
+                            <a href="home.html" class="nav-item nav-link active">Home</a>
                             <a href="socialnetwork.html" class="nav-item nav-link">Social Network</a>
                             <a href="about.html" class="nav-item nav-link">About</a>
                             <a href="shop.html" class="nav-item nav-link">Shop</a>
@@ -87,8 +87,8 @@
                                     <i class="fas fa-user fa-2x"></i>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                    <li><a class="dropdown-item" href="login.html"><i class="fas fa-sign-in-alt me-2"></i>Login</a></li>
-                                    <li><a class="dropdown-item" href="register.html"><i class="fas fa-user-plus me-2"></i>Register</a></li>
+                                    <li id="loginMenu"><a class="dropdown-item" href="login.html"><i class="fas fa-sign-in-alt me-2"></i>Login</a></li>
+                                    <li id="registerMenu"><a class="dropdown-item" href="register.html"><i class="fas fa-user-plus me-2"></i>Register</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -362,7 +362,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img" style="height: 250px; overflow: hidden;">
-                                                    <img src="https://cdn.tgdd.vn/2020/07/CookRecipe/Avatar/com-chien-duong-chau-thumbnail.jpg" class="img-fluid w-100 rounded-top h-100" style="object-fit: cover;" alt="">
+                                                    <img src="https://www.mrphoco.com/wp-content/uploads/2021/12/yangzhou-fried-rice.jpg" class="img-fluid w-100 rounded-top h-100" style="object-fit: cover;" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Vietnamese Food</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -584,7 +584,7 @@
                                         <div class="col-md-6 col-lg-4 col-xl-3">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img" style="height: 250px; overflow: hidden;">
-                                                    <img src="https://cdn.tgdd.vn/2020/07/CookRecipe/Avatar/com-chien-duong-chau-thumbnail.jpg" class="img-fluid w-100 rounded-top h-100" style="object-fit: cover;" alt="">
+                                                    <img src="https://www.mrphoco.com/wp-content/uploads/2021/12/yangzhou-fried-rice.jpg" class="img-fluid w-100 rounded-top h-100" style="object-fit: cover;" alt="">
                                                 </div>
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Rice Dishes</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
@@ -1335,4 +1335,32 @@
     </script>
     </body>
 
+    <!-- Welcome message for new registered user -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const params = new URLSearchParams(window.location.search);
+        const username = params.get('username');
+        if (username) {
+            // Show welcome message
+            const welcomeDiv = document.createElement('div');
+            welcomeDiv.className = 'alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3 shadow';
+            welcomeDiv.style.zIndex = 9999;
+            welcomeDiv.innerHTML = `<strong>Welcome, ${username}!</strong> Your account has been created successfully.`;
+            document.body.appendChild(welcomeDiv);
+            setTimeout(() => welcomeDiv.remove(), 5000);
+
+            // Update user icon to show username
+            const userDropdown = document.getElementById('userDropdown');
+            if (userDropdown) {
+                userDropdown.innerHTML = `<i class="fas fa-user fa-2x"></i> <span id="headerUsername" class="ms-2">${username}</span>`;
+            }
+
+            // Update dropdown menu to Profile/Logout
+            const loginMenu = document.getElementById('loginMenu');
+            const registerMenu = document.getElementById('registerMenu');
+            if (loginMenu) loginMenu.innerHTML = '<a class="dropdown-item" href="#"><i class="fas fa-user-circle me-2"></i>Profile</a>';
+            if (registerMenu) registerMenu.innerHTML = '<a class="dropdown-item" href="home.html"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>';
+        }
+    });
+    </script>
 </html>

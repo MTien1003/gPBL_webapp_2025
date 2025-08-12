@@ -101,12 +101,23 @@
 <body>
     <div class="login-container">
         <div class="text-center mb-3">
-            <a href="home.html" class="text-decoration-none" style="color: #81c408; font-size: 0.9rem;">
+            <a href="{% url 'home' %}" class="text-decoration-none" style="color: #81c408; font-size: 0.9rem;">
                 <i class="fas fa-arrow-left me-2"></i>Back to Home
             </a>
         </div>
         <div class="login-title">Sign In</div>
-        <form class="login-form" method="post" action="{% url 'login_html' %}">
+        
+        <!-- Display error messages -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <form class="login-form" method="post" action="{% url 'login' %}">
             {% csrf_token %}
             <input type="text" name="username" class="form-control" placeholder="Username" required>
             <input type="password" name="password" class="form-control" placeholder="Password" required>
@@ -118,13 +129,37 @@
                 <button type="button" class="btn btn-outline-dark" title="Apple"><i class="fab fa-apple"></i></button>
             </div>
             <div class="login-link">
-                <span>Don't have an account? <a href="register.html">Sign Up</a></span>
+                <span>Don't have an account? <a href="{% url 'register' %}">Sign Up</a></span>
             </div>
         </form>
     </div>
 
     <!-- Optional: Footer hoặc các JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Xử lý login bằng backend Django, không cần JS authAPI -->
+    <script>
+        // Auto-hide alerts after 5 seconds
+        setTimeout(function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                const bootstrapAlert = new bootstrap.Alert(alert);
+                bootstrapAlert.close();
+            });
+        }, 5000);
+
+        // Form submission feedback
+        document.querySelector('.login-form').addEventListener('submit', function() {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Signing In...';
+            submitBtn.disabled = true;
+            
+            // Re-enable if form submission fails (page doesn't redirect)
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 3000);
+        });
+    </script>
+    <!-- Xử lý login bằng backend Django -->
 </body>
 </html>

@@ -84,11 +84,26 @@
                             </button>
                             <div class="dropdown">
                                 <a href="#" class="position-relative me-4 my-auto dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-user fa-2x"></i>
+                                    {% if logged_in_user %}
+                                        {% if logged_in_user.avatar_url %}
+                                            <img src="{{ logged_in_user.avatar_url }}" alt="Avatar" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover; border: 2px solid #81c408;">
+                                            <span id="headerUsername" class="ms-2">{{ logged_in_user.username }}</span>
+                                        {% else %}
+                                            <i class="fas fa-user fa-2x"></i>
+                                            <span id="headerUsername" class="ms-2">{{ logged_in_user.username }}</span>
+                                        {% endif %}
+                                    {% else %}
+                                        <i class="fas fa-user fa-2x"></i>
+                                    {% endif %}
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                    <li id="loginMenu"><a class="dropdown-item" href="login.html"><i class="fas fa-sign-in-alt me-2"></i>Login</a></li>
-                                    <li id="registerMenu"><a class="dropdown-item" href="register.html"><i class="fas fa-user-plus me-2"></i>Register</a></li>
+                                    {% if logged_in_user %}
+                                        <li><a class="dropdown-item" href="{% url 'profile' %}?username={{ logged_in_user.username }}"><i class="fas fa-user-circle me-2"></i>Profile</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                                    {% else %}
+                                        <li id="loginMenu"><a class="dropdown-item" href="{% url 'login' %}"><i class="fas fa-sign-in-alt me-2"></i>Login</a></li>
+                                        <li id="registerMenu"><a class="dropdown-item" href="{% url 'register' %}"><i class="fas fa-user-plus me-2"></i>Register</a></li>
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>
@@ -1258,6 +1273,38 @@
 
     <!-- Template Javascript -->
     <script src="{% static 'js/main.js' %}"></script>
+    
+    <!-- Simple user notification script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        {% if logged_in_user %}
+        // Check if this is after a profile update
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'success' and 'Profile updated' in message %}
+                // Profile update success message
+                const updateMessage = `<strong>Success!</strong> Profile updated successfully, {{ logged_in_user.username }}! Your changes are now visible.`;
+                const updateDiv = document.createElement('div');
+                updateDiv.className = 'alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3 shadow';
+                updateDiv.style.zIndex = 9999;
+                updateDiv.innerHTML = updateMessage;
+                document.body.appendChild(updateDiv);
+                setTimeout(() => updateDiv.remove(), 5000);
+                {% elif message.tags == 'success' and 'Welcome back' in message %}
+                // Login success message
+                const welcomeMessage = `<strong>Welcome back, {{ logged_in_user.username }}!</strong> You have successfully logged in.`;
+                const welcomeDiv = document.createElement('div');
+                welcomeDiv.className = 'alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3 shadow';
+                welcomeDiv.style.zIndex = 9999;
+                welcomeDiv.innerHTML = welcomeMessage;
+                document.body.appendChild(welcomeDiv);
+                setTimeout(() => welcomeDiv.remove(), 5000);
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% endif %}
+    });
+    </script>
 
     <!-- Pagination Javascript -->
     <script>
@@ -1335,32 +1382,40 @@
     </script>
     </body>
 
-    <!-- Welcome message for new registered user -->
+    <!-- Welcome message for users -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        {% if logged_in_user %}
+        // User data from Django session
+        const username = "{{ logged_in_user.username|escapejs }}";
+        const avatar = "{{ logged_in_user.avatar_url|escapejs }}";
+        
+        // Show welcome message for logged in user
+        const welcomeMessage = `<strong>Welcome back, ${username}!</strong> You have successfully logged in.`;
+        
+        const welcomeDiv = document.createElement('div');
+        welcomeDiv.className = 'alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3 shadow';
+        welcomeDiv.style.zIndex = 9999;
+        welcomeDiv.innerHTML = welcomeMessage;
+        document.body.appendChild(welcomeDiv);
+        setTimeout(() => welcomeDiv.remove(), 5000);
+        {% endif %}
+        
+        // Handle URL parameters for profile updates
         const params = new URLSearchParams(window.location.search);
-        const username = params.get('username');
-        if (username) {
-            // Show welcome message
-            const welcomeDiv = document.createElement('div');
-            welcomeDiv.className = 'alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3 shadow';
-            welcomeDiv.style.zIndex = 9999;
-            welcomeDiv.innerHTML = `<strong>Welcome, ${username}!</strong> Your account has been created successfully.`;
-            document.body.appendChild(welcomeDiv);
-            setTimeout(() => welcomeDiv.remove(), 5000);
-
-            // Update user icon to show username
-            const userDropdown = document.getElementById('userDropdown');
-            if (userDropdown) {
-                userDropdown.innerHTML = `<i class="fas fa-user fa-2x"></i> <span id="headerUsername" class="ms-2">${username}</span>`;
-            }
-
-            // Update dropdown menu to Profile/Logout
-            const loginMenu = document.getElementById('loginMenu');
-            const registerMenu = document.getElementById('registerMenu');
-            if (loginMenu) loginMenu.innerHTML = '<a class="dropdown-item" href="#"><i class="fas fa-user-circle me-2"></i>Profile</a>';
-            if (registerMenu) registerMenu.innerHTML = '<a class="dropdown-item" href="home.html"><i class="fas fa-sign-out-alt me-2"></i>Logout</a>';
+        const updated = params.get('updated');
+        const urlUsername = params.get('username');
+        
+        if (updated === '1' && urlUsername) {
+            const updateMessage = `<strong>Success!</strong> Profile updated successfully, ${urlUsername}! Your changes are now visible across all pages.`;
+            const updateDiv = document.createElement('div');
+            updateDiv.className = 'alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3 shadow';
+            updateDiv.style.zIndex = 9999;
+            updateDiv.innerHTML = updateMessage;
+            document.body.appendChild(updateDiv);
+            setTimeout(() => updateDiv.remove(), 5000);
         }
     });
+    </script>
     </script>
 </html>

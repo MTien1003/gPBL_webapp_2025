@@ -9,4 +9,5 @@ class Account(models.Model):
     phone_number = models.CharField(max_length=15, blank=True)
     password = models.CharField(max_length=128)
     confirm_password = models.CharField(max_length=128)
+    avatar_url = models.URLField(max_length=500, blank=True, null=True, default='https://via.placeholder.com/150x150/81c408/ffffff?text=User')
 

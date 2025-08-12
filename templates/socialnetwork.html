@@ -401,11 +401,26 @@
                             {% endif %}
                             <div class="dropdown">
                                 <a href="#" class="position-relative me-4 my-auto dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-user fa-2x text-primary"></i>
+                                    {% if logged_in_user %}
+                                        {% if logged_in_user.avatar_url %}
+                                            <img src="{{ logged_in_user.avatar_url }}" alt="Avatar" class="rounded-circle me-2" style="width: 40px; height: 40px; object-fit: cover; border: 2px solid #81c408;">
+                                            <span id="headerUsername" class="ms-2">{{ logged_in_user.username }}</span>
+                                        {% else %}
+                                            <i class="fas fa-user fa-2x text-primary"></i>
+                                            <span id="headerUsername" class="ms-2">{{ logged_in_user.username }}</span>
+                                        {% endif %}
+                                    {% else %}
+                                        <i class="fas fa-user fa-2x text-primary"></i>
+                                    {% endif %}
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                    <li><a class="dropdown-item" href="login.html"><i class="fas fa-sign-in-alt me-2"></i>Login</a></li>
-                                    <li><a class="dropdown-item" href="register.html"><i class="fas fa-user-plus me-2"></i>Register</a></li>
+                                    {% if logged_in_user %}
+                                        <li><a class="dropdown-item" href="{% url 'profile' %}?username={{ logged_in_user.username }}"><i class="fas fa-user-circle me-2"></i>Profile</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                                    {% else %}
+                                        <li><a class="dropdown-item" href="{% url 'login' %}"><i class="fas fa-sign-in-alt me-2"></i>Login</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'register' %}"><i class="fas fa-user-plus me-2"></i>Register</a></li>
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>
@@ -442,29 +457,33 @@
                     <div class="col-lg-3 d-none d-lg-block">
                         <div class="left-sidebar">
                             {% if user.is_authenticated %}
-                                                        <!-- User Profile Card -->
-                                                        <div class="profile-card">
-                                                            <div class="d-flex align-items-center mb-3">
-                                                                <img src="{% static 'img/avatar.jpg' %}" class="rounded-circle me-3" width="50" height="50" alt="Profile">
-                                                                <div>
-                                                                    <h6 class="mb-1">{{ user.username }}</h6>
-                                                                    <small class="text-muted">Restaurant Owner</small>
-                                                                </div>
-                                                            </div>
-                                                            <div class="text-center">
-                                                                <div class="row">
-                                                                    <div class="col-4">
-                                                                        <strong>125</strong><br><small>Posts</small>
-                                                                    </div>
-                                                                    <div class="col-4">
-                                                                        <strong>2.5K</strong><br><small>Friends</small>
-                                                                    </div>
-                                                                    <div class="col-4">
-                                                                        <strong>180</strong><br><small>Following</small>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
+                                <!-- User Profile Card -->
+                                <div class="profile-card">
+                                    <div class="d-flex align-items-center mb-3">
+                                        {% if logged_in_user.avatar_url %}
+                                            <img src="{{ logged_in_user.avatar_url }}" class="rounded-circle me-3" width="50" height="50" alt="Profile" style="object-fit: cover;">
+                                        {% else %}
+                                            <img src="{% static 'img/avatar.jpg' %}" class="rounded-circle me-3" width="50" height="50" alt="Profile">
+                                        {% endif %}
+                                        <div>
+                                            <h6 class="mb-1">{{ logged_in_user.username }}</h6>
+                                            <small class="text-muted">Restaurant Owner</small>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <strong>125</strong><br><small>Posts</small>
+                                            </div>
+                                            <div class="col-4">
+                                                <strong>2.5K</strong><br><small>Friends</small>
+                                            </div>
+                                            <div class="col-4">
+                                                <strong>180</strong><br><small>Following</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             {% endif %}
 
                             <!-- Navigation Menu -->
@@ -498,10 +517,303 @@
                         <div class="main-content">
                             <!-- Stories Section -->
                             <div class="story-container">
-                                <div class="story-item create-story">
+                                <div class="story-item create-story" onclick="openCreateStoryModal()">
                                     <i class="fas fa-plus"></i>
                                     <span>Create<br>Story</span>
                                 </div>
+
+                                <!-- Create Story Modal -->
+                                <div class="modal fade" id="createStoryModal" tabindex="-1" aria-labelledby="createStoryModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="createStoryModalLabel">Create Story</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="d-flex align-items-center mb-3">
+                                                    {% if logged_in_user.avatar_url %}
+                                                        <img src="{{ logged_in_user.avatar_url }}" class="rounded-circle me-3" width="40" height="40" alt="Profile" style="object-fit: cover;">
+                                                    {% else %}
+                                                        <img src="{% static 'img/avatar.jpg' %}" class="rounded-circle me-3" width="40" height="40" alt="Profile">
+                                                    {% endif %}
+                                                    <div>
+                                                        <h6 class="mb-0">{% if logged_in_user %}{{ logged_in_user.username }}{% else %}Guest{% endif %}</h6>
+                                                        <small class="text-muted">Your story will be visible for 24 hours</small>
+                                                    </div>
+                                                </div>
+                                                
+                                                <form id="createStoryForm">
+                                                    <div id="storyPreview" class="mb-3" style="display: none;">
+                                                        <div class="position-relative story-preview-container">
+                                                            <div id="storyMediaContainer" class="text-center" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 15px; height: 400px; display: flex; align-items: center; justify-content: center; position: relative;">
+                                                                <img id="previewStoryImage" class="img-fluid" style="max-height: 380px; max-width: 100%; border-radius: 15px; object-fit: cover; display: none;">
+                                                                <video id="previewStoryVideo" class="img-fluid" style="max-height: 380px; max-width: 100%; border-radius: 15px; object-fit: cover; display: none;" controls></video>
+                                                                <div id="storyTextOverlay" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 24px; font-weight: bold; text-align: center; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); white-space: pre-line; display: none;"></div>
+                                                            </div>
+                                                            <button type="button" class="btn btn-sm btn-light position-absolute top-0 end-0 m-2" onclick="removeStoryMedia()">
+                                                                <i class="fas fa-times"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <input type="file" id="storyImageInput" accept="image/*,video/*" style="display: none;" onchange="previewStoryMedia()">
+                                                    
+                                                    <div class="mb-3">
+                                                        <textarea class="form-control" id="storyText" rows="3" placeholder="Add text to your story..." maxlength="200"></textarea>
+                                                        <div class="text-end mt-1">
+                                                            <small class="text-muted"><span id="textCount">0</span>/200</small>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="row mb-3">
+                                                        <div class="col-12">
+                                                            <h6>Story Options:</h6>
+                                                            <div class="d-flex gap-3 flex-wrap">
+                                                                <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('storyImageInput').click()">
+                                                                    <i class="fas fa-camera me-2"></i>Photo/Video
+                                                                </button>
+                                                                <button type="button" class="btn btn-outline-success" onclick="createTextStory()">
+                                                                    <i class="fas fa-font me-2"></i>Text Only
+                                                                </button>
+                                                                <button type="button" class="btn btn-outline-warning" onclick="changeStoryBackground()">
+                                                                    <i class="fas fa-palette me-2"></i>Background
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Text Color:</label>
+                                                        <div class="d-flex gap-2">
+                                                            <button type="button" class="btn btn-sm color-btn" style="background-color: white; border: 1px solid #ccc;" onclick="changeTextColor('white')"></button>
+                                                            <button type="button" class="btn btn-sm color-btn" style="background-color: black;" onclick="changeTextColor('black')"></button>
+                                                            <button type="button" class="btn btn-sm color-btn" style="background-color: red;" onclick="changeTextColor('red')"></button>
+                                                            <button type="button" class="btn btn-sm color-btn" style="background-color: blue;" onclick="changeTextColor('blue')"></button>
+                                                            <button type="button" class="btn btn-sm color-btn" style="background-color: green;" onclick="changeTextColor('green')"></button>
+                                                            <button type="button" class="btn btn-sm color-btn" style="background-color: yellow;" onclick="changeTextColor('yellow')"></button>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Privacy:</label>
+                                                        <select class="form-select" id="storyPrivacy">
+                                                            <option value="public">Public</option>
+                                                            <option value="friends">Friends Only</option>
+                                                            <option value="close_friends">Close Friends</option>
+                                                        </select>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                <button type="button" class="btn btn-primary" onclick="submitStory()">Share Story</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <script>
+                                // Story-related JavaScript functions
+                                let storyBackgrounds = [
+                                    'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                                    'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                                    'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                                    'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                                    'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                                    'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)'
+                                ];
+                                let currentBgIndex = 0;
+                                let currentTextColor = 'white';
+
+                                function openCreateStoryModal() {
+                                    const modal = new bootstrap.Modal(document.getElementById('createStoryModal'));
+                                    modal.show();
+                                }
+
+                                function previewStoryMedia() {
+                                    const fileInput = document.getElementById('storyImageInput');
+                                    const file = fileInput.files[0];
+                                    const storyPreview = document.getElementById('storyPreview');
+                                    const previewImage = document.getElementById('previewStoryImage');
+                                    const previewVideo = document.getElementById('previewStoryVideo');
+                                    const textOverlay = document.getElementById('storyTextOverlay');
+                                    
+                                    if (file) {
+                                        const reader = new FileReader();
+                                        reader.onload = function(e) {
+                                            storyPreview.style.display = 'block';
+                                            
+                                            if (file.type.startsWith('image/')) {
+                                                previewImage.src = e.target.result;
+                                                previewImage.style.display = 'block';
+                                                previewVideo.style.display = 'none';
+                                            } else if (file.type.startsWith('video/')) {
+                                                previewVideo.src = e.target.result;
+                                                previewVideo.style.display = 'block';
+                                                previewImage.style.display = 'none';
+                                            }
+                                            
+                                            // Show text overlay if there's text
+                                            const storyText = document.getElementById('storyText').value;
+                                            if (storyText.trim()) {
+                                                textOverlay.textContent = storyText;
+                                                textOverlay.style.display = 'block';
+                                            }
+                                        };
+                                        reader.readAsDataURL(file);
+                                    }
+                                }
+
+                                function createTextStory() {
+                                    const storyPreview = document.getElementById('storyPreview');
+                                    const previewImage = document.getElementById('previewStoryImage');
+                                    const previewVideo = document.getElementById('previewStoryVideo');
+                                    const textOverlay = document.getElementById('storyTextOverlay');
+                                    const storyText = document.getElementById('storyText').value;
+                                    
+                                    if (storyText.trim()) {
+                                        storyPreview.style.display = 'block';
+                                        previewImage.style.display = 'none';
+                                        previewVideo.style.display = 'none';
+                                        textOverlay.textContent = storyText;
+                                        textOverlay.style.display = 'block';
+                                        textOverlay.style.color = currentTextColor;
+                                    } else {
+                                        alert('Please enter some text for your story!');
+                                    }
+                                }
+
+                                function changeStoryBackground() {
+                                    const mediaContainer = document.getElementById('storyMediaContainer');
+                                    currentBgIndex = (currentBgIndex + 1) % storyBackgrounds.length;
+                                    mediaContainer.style.background = storyBackgrounds[currentBgIndex];
+                                }
+
+                                function changeTextColor(color) {
+                                    currentTextColor = color;
+                                    const textOverlay = document.getElementById('storyTextOverlay');
+                                    if (textOverlay.style.display === 'block') {
+                                        textOverlay.style.color = color;
+                                    }
+                                    
+                                    // Update color buttons
+                                    document.querySelectorAll('.color-btn').forEach(btn => {
+                                        btn.style.border = '1px solid #ccc';
+                                    });
+                                    event.target.style.border = '3px solid #007bff';
+                                }
+
+                                function removeStoryMedia() {
+                                    const storyPreview = document.getElementById('storyPreview');
+                                    const previewImage = document.getElementById('previewStoryImage');
+                                    const previewVideo = document.getElementById('previewStoryVideo');
+                                    const textOverlay = document.getElementById('storyTextOverlay');
+                                    const fileInput = document.getElementById('storyImageInput');
+                                    
+                                    storyPreview.style.display = 'none';
+                                    previewImage.src = '';
+                                    previewImage.style.display = 'none';
+                                    previewVideo.src = '';
+                                    previewVideo.style.display = 'none';
+                                    textOverlay.style.display = 'none';
+                                    fileInput.value = '';
+                                }
+
+                                function submitStory() {
+                                    const storyText = document.getElementById('storyText').value;
+                                    const fileInput = document.getElementById('storyImageInput');
+                                    const privacy = document.getElementById('storyPrivacy').value;
+                                    
+                                    if (!storyText.trim() && !fileInput.files[0]) {
+                                        alert('Please add some content to your story!');
+                                        return;
+                                    }
+                                    
+                                    // Create FormData for story submission
+                                    const formData = new FormData();
+                                    formData.append('text', storyText);
+                                    formData.append('privacy', privacy);
+                                    formData.append('background', storyBackgrounds[currentBgIndex]);
+                                    formData.append('text_color', currentTextColor);
+                                    
+                                    if (fileInput.files[0]) {
+                                        formData.append('media', fileInput.files[0]);
+                                    }
+                                    
+                                    // Simulate story creation (replace with actual API call)
+                                    console.log('Creating story with data:', {
+                                        text: storyText,
+                                        privacy: privacy,
+                                        hasMedia: !!fileInput.files[0],
+                                        background: storyBackgrounds[currentBgIndex],
+                                        textColor: currentTextColor
+                                    });
+                                    
+                                    // Show success message
+                                    alert('Story created successfully!');
+                                    
+                                    // Close modal and reset form
+                                    const modal = bootstrap.Modal.getInstance(document.getElementById('createStoryModal'));
+                                    modal.hide();
+                                    resetStoryForm();
+                                    
+                                    // Add the new story to the story container (simulate)
+                                    addNewStoryToFeed();
+                                }
+
+                                function resetStoryForm() {
+                                    document.getElementById('createStoryForm').reset();
+                                    document.getElementById('storyPreview').style.display = 'none';
+                                    document.getElementById('previewStoryImage').src = '';
+                                    document.getElementById('previewStoryVideo').src = '';
+                                    document.getElementById('storyTextOverlay').style.display = 'none';
+                                    document.getElementById('textCount').textContent = '0';
+                                    currentBgIndex = 0;
+                                    currentTextColor = 'white';
+                                }
+
+                                function addNewStoryToFeed() {
+                                    const storyContainer = document.querySelector('.story-container');
+                                    const newStory = document.createElement('div');
+                                    newStory.className = 'story-item';
+                                    newStory.innerHTML = `
+                                        <div class="story-bg" style="background: ${storyBackgrounds[currentBgIndex]}; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: ${currentTextColor}; font-weight: bold;">
+                                            My Story
+                                        </div>
+                                        <div class="story-overlay">
+                                            {% if logged_in_user.avatar_url %}
+                                                <img src="{{ logged_in_user.avatar_url }}" class="rounded-circle me-2" width="24" height="24" style="object-fit: cover;">
+                                            {% else %}
+                                                <img src="{% static 'img/avatar.jpg' %}" class="rounded-circle me-2" width="24" height="24">
+                                            {% endif %}
+                                            Your Story
+                                        </div>
+                                    `;
+                                    
+                                    // Insert after the create story button
+                                    const createStoryItem = document.querySelector('.create-story');
+                                    createStoryItem.parentNode.insertBefore(newStory, createStoryItem.nextSibling);
+                                }
+
+                                // Text counter for story text
+                                document.getElementById('storyText').addEventListener('input', function() {
+                                    const textCount = document.getElementById('textCount');
+                                    const currentLength = this.value.length;
+                                    textCount.textContent = currentLength;
+                                    
+                                    // Update text overlay in real-time
+                                    const textOverlay = document.getElementById('storyTextOverlay');
+                                    if (document.getElementById('storyPreview').style.display === 'block') {
+                                        textOverlay.textContent = this.value;
+                                        if (this.value.trim()) {
+                                            textOverlay.style.display = 'block';
+                                        } else {
+                                            textOverlay.style.display = 'none';
+                                        }
+                                    }
+                                });
+                                </script>
                                 <div class="story-item">
                                     <img src="https://cdn.asiastreetfood.com/uploads/Vietnam-Pho-Bo-Hanoi3-9277-2.jpg?strip=all&lossy=1&quality=80&ssl=1" class="story-bg" alt="Story">
                                     <div class="story-overlay">
@@ -535,19 +847,305 @@
                             <!-- Create Post -->
                             <div class="create-post">
                                 <div class="d-flex align-items-center mb-3">
-                                    <img src="{% static 'img/avatar.jpg' %}" class="rounded-circle me-3" width="40" height="40" alt="Profile">
-                                    <textarea class="create-post-input" rows="1" placeholder="What's on your mind, {% if user.is_authenticated %}{{ user.first_name|default:user.username }}{% else %}Guest{% endif %}?"></textarea>
+                                    {% if logged_in_user.avatar_url %}
+                                        <img src="{{ logged_in_user.avatar_url }}" class="rounded-circle me-3" width="40" height="40" alt="Profile" style="object-fit: cover;">
+                                    {% else %}
+                                        <img src="{% static 'img/avatar.jpg' %}" class="rounded-circle me-3" width="40" height="40" alt="Profile">
+                                    {% endif %}
+                                    <textarea class="create-post-input" rows="1" placeholder="What's on your mind, {% if logged_in_user %}{{ logged_in_user.first_name|default:logged_in_user.username }}{% else %}Guest{% endif %}?" onclick="openCreatePostModal()"></textarea>
                                 </div>
                                 <div class="create-post-actions">
-                                    <!--<button class="action-btn">
-                                        <i class="fas fa-video text-danger me-2"></i>Live Video
-                                    </button>-->
-                                    <button class="action-btn">
+                                    <button class="action-btn" onclick="openCreatePostModal('photo')">
                                         <i class="fas fa-images text-success me-2"></i>Photo/Video
                                     </button>
-                                    <!--<button class="action-btn">
-                                        <i class="fas fa-utensils text-warning me-2"></i>Recipe
-                                    </button>-->
+                                </div>
+                            </div>
+
+                            <!-- JavaScript for Create Post -->
+                            <script>
+                                function openCreatePostModal(type = '') {
+                                    const modal = new bootstrap.Modal(document.getElementById('createPostModal'));
+                                    modal.show();
+                                    
+                                    if (type === 'photo') {
+                                        setTimeout(() => {
+                                            document.getElementById('imageInput').click();
+                                        }, 500);
+                                    }
+                                }
+
+                                function previewMedia() {
+                                    const fileInput = document.getElementById('imageInput');
+                                    const file = fileInput.files[0];
+                                    const imagePreview = document.getElementById('imagePreview');
+                                    const previewImage = document.getElementById('previewImage');
+                                    
+                                    if (file) {
+                                        const reader = new FileReader();
+                                        reader.onload = function(e) {
+                                            previewImage.src = e.target.result;
+                                            imagePreview.style.display = 'block';
+                                        };
+                                        reader.readAsDataURL(file);
+                                    }
+                                }
+
+                                function removeImage() {
+                                    const imagePreview = document.getElementById('imagePreview');
+                                    const previewImage = document.getElementById('previewImage');
+                                    const fileInput = document.getElementById('imageInput');
+                                    
+                                    imagePreview.style.display = 'none';
+                                    previewImage.src = '';
+                                    fileInput.value = '';
+                                }
+
+                                function submitPost() {
+                                    const postContent = document.getElementById('postContent').value;
+                                    const fileInput = document.getElementById('imageInput');
+                                    
+                                    if (!postContent.trim() && !fileInput.files[0]) {
+                                        alert('Please write something or add a photo!');
+                                        return;
+                                    }
+                                    
+                                    // Create new post data
+                                    const newPost = {
+                                        content: postContent,
+                                        hasImage: !!fileInput.files[0],
+                                        timestamp: new Date()
+                                    };
+                                    
+                                    // Add new post to the feed
+                                    addNewPostToFeed(newPost);
+                                    
+                                    // Close modal and reset form
+                                    const modal = bootstrap.Modal.getInstance(document.getElementById('createPostModal'));
+                                    modal.hide();
+                                    resetCreatePostForm();
+                                    
+                                    // Show success message
+                                    showNotification('Post shared successfully!');
+                                }
+
+                                function addNewPostToFeed(postData) {
+                                    const mainContent = document.querySelector('.main-content');
+                                    const newPostElement = document.createElement('div');
+                                    newPostElement.className = 'post-card';
+                                    
+                                    const timeAgo = 'Just now';
+                                    const userAvatar = '{{ logged_in_user.avatar_url|default:"/static/img/avatar.jpg" }}';
+                                    const username = '{{ logged_in_user.username|default:"Guest" }}';
+                                    const postId = 'comments' + Date.now();
+                                    
+                                    newPostElement.innerHTML = `
+                                        <div class="post-header">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="d-flex align-items-center">
+                                                    <img src="${userAvatar}" class="rounded-circle me-3" width="40" height="40" alt="Profile" style="object-fit: cover;">
+                                                    <div>
+                                                        <h6 class="mb-0">${username}</h6>
+                                                        <small class="text-muted">${timeAgo} • <i class="fas fa-globe-americas"></i></small>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown">
+                                                    <button class="btn" data-bs-toggle="dropdown">
+                                                        <i class="fas fa-ellipsis-h"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu">
+                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-edit me-2"></i>Edit post</a></li>
+                                                        <li><a class="dropdown-item" href="#" onclick="deletePost(this)"><i class="fas fa-trash me-2"></i>Delete post</a></li>
+                                                        <li><a class="dropdown-item" href="#"><i class="fas fa-bookmark me-2"></i>Save post</a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="post-content">
+                                            <p>${postData.content}</p>
+                                        </div>
+                                        ${postData.hasImage ? '<div id="newPostImage"></div>' : ''}
+                                        <div class="post-actions">
+                                            <button class="action-btn" onclick="toggleLike(this)">
+                                                <i class="fas fa-heart me-2"></i><span>Like</span>
+                                            </button>
+                                            <button class="action-btn" onclick="toggleComments('${postId}')">
+                                                <i class="fas fa-comment me-2"></i>Comment
+                                            </button>
+                                            <button class="action-btn">
+                                                <i class="fas fa-share me-2"></i>Share
+                                            </button>
+                                        </div>
+                                        <div id="${postId}" class="comment-section" style="display: none;">
+                                            <div class="comment-input">
+                                                <img src="${userAvatar}" class="rounded-circle" width="32" height="32" alt="Profile" style="object-fit: cover;">
+                                                <input type="text" placeholder="Write a comment..." onkeypress="addComment(event, '${postId}')">
+                                            </div>
+                                        </div>
+                                    `;
+                                    
+                                    // Insert after create post section
+                                    const createPost = document.querySelector('.create-post');
+                                    createPost.parentNode.insertBefore(newPostElement, createPost.nextSibling);
+                                    
+                                    // Handle image if exists
+                                    if (postData.hasImage) {
+                                        const fileInput = document.getElementById('imageInput');
+                                        const file = fileInput.files[0];
+                                        if (file) {
+                                            const reader = new FileReader();
+                                            reader.onload = function(e) {
+                                                const imageContainer = newPostElement.querySelector('#newPostImage');
+                                                imageContainer.innerHTML = `<img src="${e.target.result}" class="post-image" alt="Posted image">`;
+                                            };
+                                            reader.readAsDataURL(file);
+                                        }
+                                    }
+                                    
+                                    // Smooth scroll to new post
+                                    newPostElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                    
+                                    // Add fade-in animation
+                                    newPostElement.style.opacity = '0';
+                                    newPostElement.style.transform = 'translateY(-20px)';
+                                    newPostElement.style.transition = 'all 0.5s ease';
+                                    
+                                    setTimeout(() => {
+                                        newPostElement.style.opacity = '1';
+                                        newPostElement.style.transform = 'translateY(0)';
+                                    }, 100);
+                                }
+
+                                function resetCreatePostForm() {
+                                    document.getElementById('postContent').value = '';
+                                    document.getElementById('imageInput').value = '';
+                                    document.getElementById('imagePreview').style.display = 'none';
+                                    document.getElementById('previewImage').src = '';
+                                }
+
+                                function deletePost(button) {
+                                    if (confirm('Are you sure you want to delete this post?')) {
+                                        const postCard = button.closest('.post-card');
+                                        postCard.style.transition = 'all 0.3s ease';
+                                        postCard.style.opacity = '0';
+                                        postCard.style.transform = 'translateX(-100%)';
+                                        
+                                        setTimeout(() => {
+                                            postCard.remove();
+                                            showNotification('Post deleted successfully!');
+                                        }, 300);
+                                    }
+                                }
+
+                                function showNotification(message) {
+                                    const notification = document.createElement('div');
+                                    notification.className = 'alert alert-success position-fixed';
+                                    notification.style.cssText = `
+                                        top: 20px;
+                                        right: 20px;
+                                        z-index: 9999;
+                                        min-width: 300px;
+                                        opacity: 0;
+                                        transform: translateX(100%);
+                                        transition: all 0.3s ease;
+                                    `;
+                                    notification.innerHTML = `
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-check-circle me-2"></i>
+                                            ${message}
+                                            <button type="button" class="btn-close ms-auto" onclick="this.parentNode.parentNode.remove()"></button>
+                                        </div>
+                                    `;
+                                    
+                                    document.body.appendChild(notification);
+                                    
+                                    setTimeout(() => {
+                                        notification.style.opacity = '1';
+                                        notification.style.transform = 'translateX(0)';
+                                    }, 100);
+                                    
+                                    setTimeout(() => {
+                                        notification.style.opacity = '0';
+                                        notification.style.transform = 'translateX(100%)';
+                                        setTimeout(() => notification.remove(), 300);
+                                    }, 3000);
+                                }
+
+                                // Auto-expand textarea in create post
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const textarea = document.querySelector('.create-post-input');
+                                    if (textarea) {
+                                        textarea.addEventListener('input', function() {
+                                            this.style.height = 'auto';
+                                            this.style.height = (this.scrollHeight) + 'px';
+                                        });
+                                    }
+                                });
+                            </script>
+
+                            <!-- Create Post Modal -->
+                            <div class="modal fade" id="createPostModal" tabindex="-1" aria-labelledby="createPostModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="createPostModalLabel">Create Post</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="d-flex align-items-center mb-3">
+                                                {% if logged_in_user.avatar_url %}
+                                                    <img src="{{ logged_in_user.avatar_url }}" class="rounded-circle me-3" width="40" height="40" alt="Profile" style="object-fit: cover;">
+                                                {% else %}
+                                                    <img src="{% static 'img/avatar.jpg' %}" class="rounded-circle me-3" width="40" height="40" alt="Profile">
+                                                {% endif %}
+                                                <div>
+                                                    <h6 class="mb-0">{% if logged_in_user %}{{ logged_in_user.username }}{% else %}Guest{% endif %}</h6>
+                                                    <select class="form-select form-select-sm mt-1" style="width: auto;">
+                                                        <option><i class="fas fa-globe"></i> Public</option>
+                                                        <option><i class="fas fa-users"></i> Friends</option>
+                                                        <option><i class="fas fa-lock"></i> Only me</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+                                            <form id="createPostForm">
+                                                <textarea class="form-control border-0 mb-3" rows="4" id="postContent" placeholder="What's on your mind, {% if logged_in_user %}{{ logged_in_user.first_name|default:logged_in_user.username }}{% else %}Guest{% endif %}?" style="resize: none; font-size: 18px;"></textarea>
+                                                
+                                                <div id="imagePreview" class="mb-3" style="display: none;">
+                                                    <div class="position-relative">
+                                                        <img id="previewImage" class="img-fluid rounded" style="max-height: 300px; width: 100%; object-fit: cover;">
+                                                        <button type="button" class="btn btn-sm btn-light position-absolute top-0 end-0 m-2" onclick="removeImage()">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                
+                                                <input type="file" id="imageInput" accept="image/*,video/*" style="display: none;" onchange="previewMedia()">
+                                                
+                                                <div class="border rounded p-3">
+                                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                                        <span>Add to your post</span>
+                                                    </div>
+                                                    <div class="d-flex gap-2">
+                                                        <button type="button" class="btn btn-light rounded-circle" onclick="document.getElementById('imageInput').click()" title="Photo/Video">
+                                                            <i class="fas fa-images text-success"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-light rounded-circle" title="Tag Friends">
+                                                            <i class="fas fa-user-tag text-primary"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-light rounded-circle" title="Feeling/Activity">
+                                                            <i class="fas fa-smile text-warning"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-light rounded-circle" title="Check In">
+                                                            <i class="fas fa-map-marker-alt text-danger"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary w-100" onclick="submitPost()">Post</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -946,7 +1544,10 @@
         <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
 
         <!-- Template Javascript -->
-        <script src="{% static 'js/main.js' %}"></script>
+            <!-- Template Javascript -->
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/user-avatar.js' %}"></script>
+    </body>
 
         <!-- Social Network JavaScript -->
         <script>
@@ -981,9 +1582,13 @@
                     const newComment = document.createElement('div');
                     newComment.className = 'comment';
                     newComment.innerHTML = `
-                        <img src="https://randomuser.me/api/portraits/men/22.jpg" class="rounded-circle" width="32" height="32" alt="Profile">
+                        {% if logged_in_user.avatar_url %}
+                            <img src="{{ logged_in_user.avatar_url }}" class="rounded-circle" width="32" height="32" alt="Profile" style="object-fit: cover;">
+                        {% else %}
+                            <img src="{% static 'img/avatar.jpg' %}" class="rounded-circle" width="32" height="32" alt="Profile">
+                        {% endif %}
                         <div class="comment-content">
-                            <div class="comment-author">Akira Yamamoto</div>
+                            <div class="comment-author">{% if logged_in_user %}{{ logged_in_user.username }}{% else %}Guest{% endif %}</div>
                             <div class="comment-text">${event.target.value}</div>
                         </div>
                     `;

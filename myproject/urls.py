@@ -23,13 +23,12 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path('admin/', admin.site.urls),
     path('', include('home.urls')),
+    path('', include('accounts.urls')),  # Include accounts URLs directly at root
     path('social/', include('social.urls')),
-    path('accounts/', include('accounts.urls')),
-    path('register/', include('accounts.urls')),
     path('cart/', include('cart.urls')),
-    path('checkout/', include('order.urls')),
+    path('order/', include('order.urls')),
 ]
 
 # Serve static files during development

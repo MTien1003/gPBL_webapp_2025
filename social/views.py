@@ -5,7 +5,7 @@ from .forms import CommentForm
 from .models import Comment
 from django.http import HttpResponse
 
-def social(request):
+def socialnetwork(request):
     if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         form = CommentForm(request.POST, request.FILES)
         if form.is_valid():

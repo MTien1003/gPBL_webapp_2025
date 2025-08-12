@@ -6,12 +6,19 @@ from .models import Comment
 from django.http import HttpResponse
 
 def social(request):
-    if request.method == 'POST':
+    if request.method == 'POST' and request.headers.get('x-requested-with') == 'XMLHttpRequest':
         form = CommentForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('social')
-    else:
-        form = CommentForm()
-    return render(request, 'socialnetwork.html', {'form': form})
+            post = form.save() 
+            return JsonResponse({
+                'status': 'success',
+                'post_id': post.id,
+                'text': post.text,
+                'image_url': post.image.url if post.image else None,
+                'created_at': post.created_at.strftime('%Y-%m-%d %H:%M:%S')
+                })
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+    return render(request, 'socialnetwork.html', {'form': CommentForm()})
+
         

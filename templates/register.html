@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,9 +13,9 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
     <style>
         body {
             background: #f0f2f5;
@@ -98,19 +99,22 @@
     </style>
 </head>
 <body>
-    <div class="register-container">
+    <div class="register-container" style="margin-top: 115px;">
         <div class="text-center mb-3">
-            <a href="index.html" class="text-decoration-none" style="color: #81c408; font-size: 0.9rem;">
+            <a href="{% url 'home' %}" class="text-decoration-none" style="color: #81c408; font-size: 0.9rem;">
                 <i class="fas fa-arrow-left me-2"></i>Back to Home
             </a>
         </div>
         <div class="register-title">Create Account</div>
-        <form class="register-form">
-            <input type="text" name="full_name" class="form-control" placeholder="Full Name" required>
-            <input type="email" name="email" class="form-control" placeholder="Email" required>
+        <form class="register-form" method="post" action="{% url 'register' %}">
+            {% csrf_token %}
+            <input type="text" name="username" class="form-control" placeholder="Username" required>
             <input type="password" name="password" class="form-control" placeholder="Password" required>
             <input type="password" name="password_confirm" class="form-control" placeholder="Confirm Password" required>
             <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                        {% if msg %}
+                            <div class="alert alert-danger mt-3">{{ msg }}</div>
+                        {% endif %}
             <div class="form-text mt-2 text-center">Or sign up with</div>
             <div class="register-social">
                 <button type="button" class="btn btn-outline-primary" title="Facebook"><i class="fab fa-facebook-f"></i></button>
@@ -118,78 +122,11 @@
                 <button type="button" class="btn btn-outline-dark" title="Apple"><i class="fab fa-apple"></i></button>
             </div>
             <div class="register-link">
-                <span>Already have an account? <a href="login.html">Sign In</a></span>
+                <span>Already have an account? <a href="{% url 'login' %}">Sign In</a></span>
             </div>
         </form>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/auth.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const registerForm = document.querySelector('.register-form');
-            
-            registerForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                // Clear previous messages
-                clearMessages(registerForm);
-                
-                // Get form data
-                const formData = new FormData(registerForm);
-                const userData = {
-                    full_name: formData.get('full_name') || registerForm.querySelector('input[placeholder="Full Name"]').value,
-                    email: formData.get('email') || registerForm.querySelector('input[placeholder="Email"]').value,
-                    username: formData.get('username') || registerForm.querySelector('input[placeholder="Email"]').value.split('@')[0],
-                    password: formData.get('password') || registerForm.querySelector('input[placeholder="Password"]').value,
-                    password_confirm: formData.get('password_confirm') || registerForm.querySelector('input[placeholder="Confirm Password"]').value
-                };
-
-                // Basic validation
-                if (!userData.full_name || !userData.email || !userData.password || !userData.password_confirm) {
-                    showError(registerForm, 'All fields are required');
-                    return;
-                }
-
-                if (userData.password !== userData.password_confirm) {
-                    showError(registerForm, 'Passwords do not match');
-                    return;
-                }
-
-                // Show loading
-                const submitBtn = registerForm.querySelector('button[type="submit"]');
-                const originalText = submitBtn.textContent;
-                submitBtn.textContent = 'Signing Up...';
-                submitBtn.disabled = true;
-
-                try {
-                    const result = await authAPI.register(userData);
-                    
-                    if (result.success) {
-                        showSuccess(registerForm, 'Registration successful! Redirecting to login...');
-                        setTimeout(() => {
-                            window.location.href = 'login.html';
-                        }, 2000);
-                    } else {
-                        // Handle field-specific errors
-                        if (result.errors.email) {
-                            showError(registerForm, `Email: ${result.errors.email.join(', ')}`);
-                        } else if (result.errors.password) {
-                            showError(registerForm, `Password: ${result.errors.password.join(', ')}`);
-                        } else if (result.errors.non_field_errors) {
-                            showError(registerForm, result.errors.non_field_errors.join(', '));
-                        } else {
-                            showError(registerForm, 'Registration failed. Please try again.');
-                        }
-                    }
-                } catch (error) {
-                    showError(registerForm, 'Network error. Please check your connection.');
-                } finally {
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                }
-            });
-        });
-    </script>
 </body>
 </html>

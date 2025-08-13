@@ -7,10 +7,11 @@ class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     sum = models.IntegerField(default=0)
 
-    def get_cart_quantity(self):
-        return self.sum
     def get_cart_items(self):
-        return sum(item.quantity for item in self.cartdetail_set.all())
+        cartDetails = self.cartdetail_set.all()
+        quantity = cartDetails.count()
+        return quantity
+
     def get_cart_total(self):
         return sum(item.get_total_price() for item in self.cartdetail_set.all())
 

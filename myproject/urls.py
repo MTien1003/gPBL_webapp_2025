@@ -20,13 +20,14 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from django.urls import include
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include('home.urls')),
     path('cart/', include('cart.urls')),
-    path('checkout/', include('order.urls'))
-
-
+    path('checkout/', include('order.urls')),
+    path('social/', include(('social.urls', 'social'), namespace='social')),
 ]
 
 # Serve static files during development

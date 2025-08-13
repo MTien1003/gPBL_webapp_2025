@@ -62,7 +62,7 @@
                                 <div class="col-lg-12">
                                     <div class="row g-4">
                                         {% for dish in dishes %}
-                                        <div class="col-md-6 col-lg-4 col-xl-3">
+                                        <div class="col-md-6 col-lg-4 col-xl-3 ">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img" style="height: 250px; overflow: hidden;">
                                                     <img src="{{ dish.ImageURL }}   " class="img-fluid w-100 rounded-top h-100" style="object-fit: cover;" alt="">
@@ -70,7 +70,7 @@
                                                 <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">Vietnamese Food</div>
                                                 <div class="p-4 border border-secondary border-top-0 rounded-bottom">
                                                     <h4>{{ dish.name }}</h4>
-                                                    <p>{{ dish.description }}</p>
+                                                    <p style="height: 100px; overflow: hidden;">{{ dish.description }}</p>
                                                     <div class="d-flex justify-content-center">
                                                         <a href="{% url 'dish_detail' dish.id %}" class="btn border border-secondary rounded-pill px-3 text-primary w-100">
                                                             <i class="fas fa-eye me-2 text-primary"></i> View Recipe
@@ -85,7 +85,7 @@
                             </div>
                         </div>
                     </div>
-                </div>      
+                </div>
             </div>
         </div>
         <!-- Vietnamese Food Shop End-->
@@ -104,7 +104,7 @@
                         <div class="p-4 rounded-bottom" style="min-height: 220px; display: flex; flex-direction: column; justify-content: space-between;">
                             <div>
                                 <h4>Nom Bo Kho (Dried Beef Salad)</h4>
-                                <p>Traditional Vietnamese beef jerky salad with herbs, peanuts, and tangy dressing.</p>
+                                <p style="height: 50px; overflow: hidden;">Traditional Vietnamese beef jerky salad with herbs, peanuts, and tangy dressing.</p>
                             </div>
                             <div class="d-flex justify-content-center">
                                 <a href="vietnamese-food-detail.html?dish=nom-bo-kho" class="btn border border-secondary rounded-pill px-3 text-primary w-100">
@@ -121,7 +121,7 @@
                         <div class="p-4 rounded-bottom" style="min-height: 220px; display: flex; flex-direction: column; justify-content: space-between;">
                             <div>
                                 <h4>Canh Chua (Sour Soup)</h4>
-                                <p>Tangy Vietnamese soup with fish, tomatoes, pineapple, and tamarind broth.</p>
+                                <p style="height: 50px; overflow: hidden;">Tangy Vietnamese soup with fish, tomatoes, pineapple, and tamarind broth.</p>
                             </div>
                             <div class="d-flex justify-content-center">
                                 <a href="vietnamese-food-detail.html?dish=canh-chua" class="btn border border-secondary rounded-pill px-3 text-primary w-100">
@@ -138,7 +138,7 @@
                         <div class="p-4 rounded-bottom" style="min-height: 220px; display: flex; flex-direction: column; justify-content: space-between;">
                             <div>
                                 <h4>Banh Xeo (Crispy Pancake)</h4>
-                                <p>Crispy Vietnamese pancake filled with shrimp, pork, and bean sprouts.</p>
+                                <p style="height: 50px; overflow: hidden;">Crispy Vietnamese pancake filled with shrimp, pork, and bean sprouts.</p>
                             </div>
                             <div class="d-flex justify-content-center">
                                 <a href="vietnamese-food-detail.html?dish=banh-xeo" class="btn border border-secondary rounded-pill px-3 text-primary w-100">
@@ -155,7 +155,7 @@
                         <div class="p-4 rounded-bottom" style="min-height: 220px; display: flex; flex-direction: column; justify-content: space-between;">
                             <div>
                                 <h4>Cha Gio (Fried Spring Rolls)</h4>
-                                <p>Crispy fried spring rolls filled with pork, shrimp, and vegetables.</p>
+                                <p style="height: 50px; overflow: hidden;">Crispy fried spring rolls filled with pork, shrimp, and vegetables.</p>
                             </div>
                             <div class="d-flex justify-content-center">
                                 <a href="vietnamese-food-detail.html?dish=cha-gio" class="btn border border-secondary rounded-pill px-3 text-primary w-100">
@@ -172,7 +172,7 @@
                         <div class="p-4 rounded-bottom" style="min-height: 220px; display: flex; flex-direction: column; justify-content: space-between;">
                             <div>
                                 <h4>Banh It (Steamed Dumplings)</h4>
-                                <p>Delicate steamed dumplings with shrimp and pork filling wrapped in translucent dough.</p>
+                                <p style="height: 50px; overflow: hidden;">Delicate steamed dumplings with shrimp and pork filling wrapped in translucent dough.</p>
                             </div>
                             <div class="d-flex justify-content-center">
                                 <a href="vietnamese-food-detail.html?dish=banh-it" class="btn border border-secondary rounded-pill px-3 text-primary w-100">
@@ -252,7 +252,7 @@
                         <div class="position-relative h-100 d-flex flex-column">
                             <i class="fa fa-quote-right fa-2x text-secondary position-absolute" style="bottom: 30px; right: 20px; opacity: 0.3;"></i>
                             <div class="mb-4 pb-4 border-bottom border-secondary flex-grow-1">
-                                <p class="mb-0 text-dark">"The Pho Bo recipe was absolutely authentic! The broth was rich and flavorful, just like what I had in Vietnam. The ingredients were fresh and easy to find in Japan."</p>
+                                <p class="mb-0 text-dark" style="height: 50px; overflow: hidden;">"The Pho Bo recipe was absolutely authentic! The broth was rich and flavorful, just like what I had in Vietnam. The ingredients were fresh and easy to find in Japan."</p>
                             </div>
                             <div class="d-flex align-items-center flex-nowrap">
                                 <div class="bg-secondary rounded">

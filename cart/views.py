@@ -15,12 +15,14 @@ def cart(request):
         cart, created = Cart.objects.get_or_create(user=user)
         cartDetails = cart.cartdetail_set.all() 
         totalPrice = cart.get_cart_total()
+        quantity = cart.get_cart_items()
     else:
         cartDetails = []
         cart = None
         totalPrice = 0
+        quantity = 0
 
-    context = { 'cart': cart, 'cartDetails': cartDetails, 'totalPrice': totalPrice}
+    context = { 'cart': cart, 'cartDetails': cartDetails, 'totalPrice': totalPrice, 'quantity': quantity}
     return render(request, 'cart.html', context)
 
 

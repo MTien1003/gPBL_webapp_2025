@@ -92,11 +92,23 @@ def contact(request):
     return render(request, 'contact.html', context)
 
 def dish_detail(request, dish_id):
-    dish = Dish.objects.get(id=dish_id)
-    ingredients = Ingredient.objects.filter(dish_ingredients__dish=dish)
+    if request.user.is_authenticated:
+        user = request.user
+        cart, created = Cart.objects.get_or_create(user=user)
+        cartDetails = cart.cartdetail_set.all()
+        quantity = cart.get_cart_items()
+        dish = Dish.objects.get(id=dish_id)
+        ingredients = Ingredient.objects.filter(dish_ingredients__dish=dish)
+    else:
+        cartDetails = []
+        cart = None
+        quantity = 0
+
     context = {
         'dish': dish,
-        'ingredients': ingredients
+        'ingredients': ingredients,
+        'cartDetails': cartDetails,
+        'quantity': quantity
     }
     return render(request, 'vietnamese-food-detail.html', context)
 

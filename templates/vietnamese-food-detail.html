@@ -38,7 +38,7 @@
                                     <div class="tab-pane active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <h5>For the Broth:</h5>
+                                                <h5>Origination:</h5>
                                                 <ul id="broth-ingredients">
                                                     {% for ingredient in ingredients %}
                                                         {% if ingredient.category == "Origin" %}
@@ -48,7 +48,7 @@
                                                 </ul>
                                             </div>
                                             <div class="col-md-6">
-                                                <h5>For Serving:</h5>
+                                                <h5>Alteration:</h5>
                                                 <form id="serving-ingredients-form">
                                                     <ul id="serving-ingredients" class="list-unstyled">
                                                         {% for ingredient in ingredients %}

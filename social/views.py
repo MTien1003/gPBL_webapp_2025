@@ -9,26 +9,6 @@ from dish.models import Ingredient
 from cart.models import Cart, CartDetail
 
 def socialnetwork(request):
-	# if request.method == 'POST':
-	# 	text = request.POST.get('text', '')
-	# 	image = request.FILES.get('image')
-	# 	image_url = ''
-	# 	if image:
-	# 		# Lưu file vào media/social/picture/
-	# 		folder = os.path.join(settings.MEDIA_ROOT, 'social', 'picture')
-	# 		os.makedirs(folder, exist_ok=True)
-	# 		filename = timezone.now().strftime('%Y%m%d%H%M%S_') + image.name
-	# 		filepath = os.path.join(folder, filename)
-	# 		with open(filepath, 'wb+') as f:
-	# 			for chunk in image.chunks():
-	# 				f.write(chunk)
-	# 		image_url = settings.MEDIA_URL + f'social/picture/{filename}'
-	# 	return JsonResponse({
-	# 		'status': 'success',
-	# 		'text': text,
-	# 		'image_url': image_url,
-	# 		'created_at': timezone.now().isoformat(),
-	# 	})
  
     if request.user.is_authenticated:
         user = request.user

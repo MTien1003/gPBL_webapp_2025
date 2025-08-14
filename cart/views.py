@@ -76,9 +76,7 @@ def updateItem(request):
         print(f"Error: {str(e)}")  # Debug
         return JsonResponse({'error': str(e)}, status=500)
     
-    
-    
-    # Thêm vào cart nhiều nguyên liệu cùng lúc
+      # Thêm vào cart nhiều nguyên liệu cùng lúc
 @csrf_exempt
 def add_ingredients(request):
     if request.method == 'POST':

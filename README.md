@@ -4,6 +4,26 @@
 
 **VietJap** là một dự án web app dành cho cộng đồng người Việt đang sinh sống tại Nhật Bản, giúp mọi người thưởng thức các món ăn Việt Nam bằng cách sử dụng nguyên liệu Nhật thay thế. Ứng dụng hỗ trợ đặt mua các nguyên liệu Nhật đã được liệt kê sẵn, đồng thời cung cấp mạng xã hội để mọi người chia sẻ, trao đổi kinh nghiệm về món ăn Việt.
 
+## Mục tiêu của dự án
+
+- Kết nối cộng đồng người Việt tại Nhật thông qua ẩm thực và chia sẻ kinh nghiệm sống.
+- Hỗ trợ người Việt dễ dàng chế biến món ăn quê hương bằng nguyên liệu Nhật thay thế, tiết kiệm thời gian và chi phí.
+- Tạo môi trường giao lưu, học hỏi, chia sẻ công thức, kinh nghiệm nấu ăn và mua sắm nguyên liệu tại Nhật.
+- Xây dựng nền tảng mạng xã hội chuyên biệt cho cộng đồng Việt tại Nhật, thúc đẩy sự gắn kết và hỗ trợ lẫn nhau.
+
+## Mô tả dự án
+
+VietJap là một nền tảng web app giúp người Việt tại Nhật dễ dàng tìm kiếm, đặt mua các nguyên liệu Nhật thay thế cho món ăn Việt Nam. Ứng dụng cung cấp danh sách món ăn, hướng dẫn chế biến, gợi ý nguyên liệu thay thế, đồng thời tích hợp mạng xã hội để mọi người chia sẻ hình ảnh, bài viết, kinh nghiệm về ẩm thực Việt tại Nhật. VietJap hướng tới việc giữ gìn bản sắc văn hóa Việt, đồng thời giúp cộng đồng thích nghi tốt hơn với cuộc sống tại Nhật.
+
+## Những điểm chính của dự án
+
+- Danh sách món ăn Việt và nguyên liệu Nhật thay thế, dễ tìm mua tại Nhật.
+- Hệ thống đặt hàng nguyên liệu trực tuyến, tối ưu cho người Việt tại Nhật.
+- Mạng xã hội chia sẻ công thức, hình ảnh, kinh nghiệm nấu ăn, mua sắm.
+- Giao diện thân thiện, hỗ trợ đa thiết bị, dễ sử dụng cho mọi lứa tuổi.
+- Quản lý tài khoản, đơn hàng, bài viết, avatar cá nhân.
+- Định hướng phát triển: tích hợp thanh toán online, bản đồ cửa hàng, mobile app, đa ngôn ngữ, chương trình tích điểm.
+
 ## Tính năng nổi bật
 
 - **Danh sách món ăn Việt**: Gợi ý các món ăn Việt Nam phổ biến, kèm hướng dẫn chế biến và nguyên liệu thay thế bằng sản phẩm Nhật.
